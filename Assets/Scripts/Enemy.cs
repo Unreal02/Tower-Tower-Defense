@@ -1,20 +1,23 @@
 using System;
 using UnityEngine;
 
+// 적 오브젝트입니다.
 public class Enemy : MonoBehaviour
 {
 	public float hp;
 	public float speed;
 
-	private PathManager pathManager;
+	private LineRenderer pathManager;
 	private Vector3[] path;
 	private int currentNode = 0;
 	private int nextNode = 1;
 
 	void Start()
 	{
-		pathManager = GameObject.Find("Path Manager").GetComponent<PathManager>();
-		path = pathManager.GetPath();
+		pathManager = GameObject.Find("Path Manager").GetComponent<LineRenderer>();
+		path = new Vector3[pathManager.positionCount];
+		pathManager.GetPositions(path);
+		transform.position = path[currentNode];
 	}
 
 	void Update()

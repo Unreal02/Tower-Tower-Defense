@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
+// Unity 에디터 화면에 보이는 적 생성 관련된 UI입니다.
 [CustomPropertyDrawer(typeof(RoundManager.Spawn))]
 public class SpawnDrawer : PropertyDrawer
 {

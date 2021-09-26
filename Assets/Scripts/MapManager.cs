@@ -1,17 +1,24 @@
 using System;
 using UnityEngine;
 
+// 맵 및 맵을 구성하는 벽돌에 관련된 작업을 처리합니다.
 public class MapManager : MonoBehaviour
 {
 	public Vector3 size;
 	public GameObject block;
 
+	private Vector3 pathStart;
+	private Vector3 pathEnd;
 	private GameObject bottom;
 	private GameObject wallXPlus;
 	private GameObject wallZPlus;
 
 	void Start()
 	{
+		LineRenderer pathManager = GameObject.Find("Path Manager").GetComponent<LineRenderer>();
+		pathStart = pathManager.GetPosition(0);
+		pathEnd = pathManager.GetPosition(pathManager.positionCount - 1);
+
 		bottom = new GameObject();
 		wallXPlus = new GameObject();
 		wallZPlus = new GameObject();
@@ -28,19 +35,25 @@ public class MapManager : MonoBehaviour
 				if ((x + z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
 			}
 
-		for (int y = 0; y < size.y; y++)
-			for (int z = 0; z < size.z; z++)
-			{
-				temp = Instantiate(block, new Vector3(size.x, y, z), Quaternion.identity, wallXPlus.transform);
-				if ((size.x + y + z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
-			}
+		for (int x = (int)pathStart.x - 1; x <= pathStart.x + 1; x++)
+			for (int y = 0; y <= pathStart.y + 1; y++)
+				for (int z = (int)pathStart.z - 1; z <= pathStart.z + 1; z++)
+				{
+					if (pathStart.x >= size.x && x != (int)pathStart.x) continue;
+					if (pathStart.z >= size.z && z != (int)pathStart.z) continue;
+					temp = Instantiate(block, new Vector3(x, y, z), Quaternion.identity, wallXPlus.transform);
+					if ((x + y + z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
+				}
 
-		for (int x = 0; x < size.x; x++)
-			for (int y = 0; y < size.y; y++)
-			{
-				temp = Instantiate(block, new Vector3(x, y, size.z), Quaternion.identity, wallZPlus.transform);
-				if ((x + y + size.z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
-			}
+		for (int x = (int)pathEnd.x - 1; x <= pathEnd.x + 1; x++)
+			for (int y = 0; y <= pathEnd.y + 1; y++)
+				for (int z = (int)pathEnd.z - 1; z <= pathEnd.z + 1; z++)
+				{
+					if (pathEnd.x >= size.x && x != (int)pathEnd.x) continue;
+					if (pathEnd.z >= size.z && z != (int)pathEnd.z) continue;
+					temp = Instantiate(block, new Vector3(x, y, z), Quaternion.identity, wallXPlus.transform);
+					if ((x + y + z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
+				}
 	}
 
 	void Update()

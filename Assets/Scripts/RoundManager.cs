@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+// 라운드를 관리합니다.
 public class RoundManager : MonoBehaviour
 {
 	[Serializable]

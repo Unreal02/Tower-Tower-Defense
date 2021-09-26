@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+// 카메라 시점 관련된 작업을 처리합니다.
 public class CameraManager : MonoBehaviour
 {
 	public float rotateSpeed;
@@ -21,7 +22,7 @@ public class CameraManager : MonoBehaviour
 
 	void Update()
 	{
-		// ���� ��ư
+		// 왼쪽 버튼
 		if (Input.GetMouseButtonDown(0) && !Input.GetMouseButton(2))
 		{
 			prevMousePosition = currMousePosition = Input.mousePosition;
@@ -34,13 +35,13 @@ public class CameraManager : MonoBehaviour
 			Rotate(-deltaMousePosition.y, deltaMousePosition.x);
 		}
 
-		// ��ũ��
+		// 스크롤
 		if (Input.mouseScrollDelta.y != 0)
 		{
 			myCamera.orthographicSize = Mathf.Clamp(myCamera.orthographicSize - Input.mouseScrollDelta.y, 1, 20);
 		}
 
-		// ��� ��ư
+		// 가운데 버튼
 		if (Input.GetMouseButtonDown(2) && !Input.GetMouseButton(0))
 		{
 			prevMousePosition = currMousePosition = Input.mousePosition;
@@ -58,7 +59,7 @@ public class CameraManager : MonoBehaviour
 	{
 		Vector3 vector = transform.rotation.eulerAngles;
 		vector.x = Mathf.Clamp(vector.x + x * Time.deltaTime * rotateSpeed, 0, 90);
-		vector.y = Mathf.Clamp(vector.y + y * Time.deltaTime * rotateSpeed, 0, 90);
+		vector.y = vector.y + y * Time.deltaTime * rotateSpeed;
 		transform.rotation = Quaternion.Euler(vector);
 	}
 
