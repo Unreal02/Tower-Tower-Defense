@@ -23,10 +23,11 @@ public class RoundManager : MonoBehaviour
 	private int currentRound = 0;
 	private float currentTime = 0;
 	private bool onRound = false;
+	private UnityEngine.UI.Text text;
 
 	void Start()
 	{
-		
+		text = GameObject.Find("Next Round Button").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
 	}
 
 	void Update()
@@ -47,7 +48,9 @@ public class RoundManager : MonoBehaviour
 					currentRound++;
 				}
 			}
+			text.text = "라운드 진행 중";
 		}
+		else text.text = "다음 라운드";
 	}
 
 	public void OnClickNextRound()

@@ -7,6 +7,7 @@ public class MapManager : MonoBehaviour
 	public Vector3 size;
 	public GameObject block;
 
+	private Vector3[] path;
 	private Vector3 pathStart;
 	private Vector3 pathEnd;
 	private GameObject bottom;
@@ -15,9 +16,12 @@ public class MapManager : MonoBehaviour
 
 	void Start()
 	{
+		// 맵 블록 그리기
 		LineRenderer pathManager = GameObject.Find("Path Manager").GetComponent<LineRenderer>();
-		pathStart = pathManager.GetPosition(0);
-		pathEnd = pathManager.GetPosition(pathManager.positionCount - 1);
+		path = new Vector3[pathManager.positionCount];
+		pathManager.GetPositions(path);
+		pathStart = path[0];
+		pathEnd = path[path.Length - 1];
 
 		bottom = new GameObject();
 		wallXPlus = new GameObject();
@@ -36,23 +40,23 @@ public class MapManager : MonoBehaviour
 			}
 
 		for (int x = (int)pathStart.x - 1; x <= pathStart.x + 1; x++)
-			for (int y = 0; y <= pathStart.y + 1; y++)
+			for (int y = (int)pathStart.y - 1; y <= pathStart.y + 1; y++)
 				for (int z = (int)pathStart.z - 1; z <= pathStart.z + 1; z++)
 				{
 					if (pathStart.x >= size.x && x != (int)pathStart.x) continue;
 					if (pathStart.z >= size.z && z != (int)pathStart.z) continue;
 					temp = Instantiate(block, new Vector3(x, y, z), Quaternion.identity, wallXPlus.transform);
-					if ((x + y + z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
+					if (new Vector3(x, y, z) != pathStart) temp.GetComponent<MeshRenderer>().material.color = Color.black;
 				}
 
 		for (int x = (int)pathEnd.x - 1; x <= pathEnd.x + 1; x++)
-			for (int y = 0; y <= pathEnd.y + 1; y++)
+			for (int y = (int)pathEnd.y - 1; y <= pathEnd.y + 1; y++)
 				for (int z = (int)pathEnd.z - 1; z <= pathEnd.z + 1; z++)
 				{
 					if (pathEnd.x >= size.x && x != (int)pathEnd.x) continue;
 					if (pathEnd.z >= size.z && z != (int)pathEnd.z) continue;
 					temp = Instantiate(block, new Vector3(x, y, z), Quaternion.identity, wallXPlus.transform);
-					if ((x + y + z) % 2 == 0) temp.GetComponent<MeshRenderer>().material.color = Color.gray;
+					if (new Vector3(x, y, z) != pathEnd) temp.GetComponent<MeshRenderer>().material.color = Color.black;
 				}
 	}
 

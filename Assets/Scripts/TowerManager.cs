@@ -20,13 +20,17 @@ public class TowerManager : MonoBehaviour
 	{
 		if (currentTower != null)
 		{
-			RaycastHit hit;
+			RaycastHit hit, _hit;
 			Vector3 camDir = cameraManager.transform.position - cam.transform.position;
 			float mouseX = Input.mousePosition.x;
 			float mouseY = Input.mousePosition.y;
 
 			int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower"));
-			if (Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask))
+			// 커서가 블록 또는 타워에 닿아 있고
+			// 윗 칸이 비어 있고
+			// 경로를 건드리지 않는 경우
+			if (Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask)
+				&& !Physics.Raycast(hit.transform.position, new Vector3(0, 1, 0), out _hit, 1, layerMask))
 			{
 				float x = hit.transform.position.x;
 				float z = hit.transform.position.z;
@@ -50,7 +54,7 @@ public class TowerManager : MonoBehaviour
 
 	public void OnClickInstallTower()
 	{
-		if (currentTower == null) return;
+		if (currentTower == null || !currentTower.activeSelf) return;
 		currentTower.transform.GetChild(1).gameObject.SetActive(false);
 		ChangeTowerLayer(LayerMask.NameToLayer("Tower"));
 		currentTower = null;
