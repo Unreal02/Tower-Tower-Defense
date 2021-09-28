@@ -4,9 +4,12 @@ using UnityEngine;
 // 타워 설치에 대한 작업을 처리합니다.
 public class TowerManager : MonoBehaviour
 {
+	public GameObject towerStack;
+
 	private CameraManager cameraManager;
 	private Camera cam;
 	private GameObject currentTower = null;
+	private GameObject currentTowerStack = null;
 	private Vector3 size;
 
 	void Start()
@@ -28,7 +31,7 @@ public class TowerManager : MonoBehaviour
 			int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower"));
 			// 커서가 블록 또는 타워에 닿아 있고
 			// 윗 칸이 비어 있고
-			// 경로를 건드리지 않는 경우
+			// 경로를 건드리지 않는 경우 (todo)
 			if (Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask)
 				&& !Physics.Raycast(hit.transform.position, new Vector3(0, 1, 0), out _hit, 1, layerMask))
 			{
@@ -37,17 +40,27 @@ public class TowerManager : MonoBehaviour
 				if (0 <= x && x < size.x && 0 <= z && z < size.z)
 				{
 					currentTower.SetActive(true);
+					currentTowerStack.SetActive(hit.transform.GetComponent<Tower>());
 					currentTower.transform.position = hit.transform.position + Vector3.up;
 				}
-				else currentTower.SetActive(false);
+				else
+				{
+					currentTower.SetActive(false);
+					currentTowerStack.SetActive(false);
+				}
 			}
-			else currentTower.SetActive(false);
+			else
+			{
+				currentTower.SetActive(false);
+				currentTowerStack.SetActive(false);
+			}
 		}
 	}
 
 	public void OnClickTowerButton(GameObject tower)
 	{
 		currentTower = Instantiate(tower);
+		currentTowerStack = Instantiate(towerStack, new Vector3(0, -1, 0), Quaternion.identity, currentTower.transform);
 		// Raycast에서 자기 자신을 인식하는 것을 막기 위해 임시로 레이어를 바꿈
 		ChangeTowerLayer(LayerMask.NameToLayer("Ignore Raycast"));
 	}
