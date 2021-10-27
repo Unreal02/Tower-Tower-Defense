@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6310837049601941774}
   - component: {fileID: 2950255305348871818}
   - component: {fileID: 4874805946333052613}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,19 +95,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3973816166458320729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504144093981869038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ad8bd483542caf47be91903f1a2308d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 3
 --- !u!64 &1477898579163762633
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -122,6 +109,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8604045607132181640, guid: 64b4826d165fe8e448cb1c757cdce5b0, type: 3}
+--- !u!114 &3973816166458320729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504144093981869038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ad8bd483542caf47be91903f1a2308d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
 --- !u!1001 &738165583826894527
 PrefabInstance:
   m_ObjectHideFlags: 0

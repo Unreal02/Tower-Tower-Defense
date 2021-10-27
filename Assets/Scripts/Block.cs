@@ -5,12 +5,12 @@ using UnityEngine;
 // 블록 오브젝트입니다.
 public class Block : MonoBehaviour
 {
-    private TowerManager towerManager;
+    private MouseCursor mouseCursor;
 
     // Start is called before the first frame update
     void Start()
     {
-        towerManager = GameObject.Find("Tower Manager").GetComponent<TowerManager>();
+        mouseCursor = GameObject.Find("Mouse Cursor").GetComponent<MouseCursor>();
     }
 
     // Update is called once per frame
@@ -19,7 +19,8 @@ public class Block : MonoBehaviour
         
     }
 
-    private void OnMouseUpAsButton() {
-        towerManager.OnClickInstallTower();
+    private void OnMouseUpAsButton()
+    {
+        mouseCursor.OnClickBlock();
     }
 }
