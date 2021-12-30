@@ -10,7 +10,7 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseCursor = GameObject.Find("Mouse Cursor").GetComponent<MouseCursor>();
+        mouseCursor = FindObjectOfType<MouseCursor>();
     }
 
     // Update is called once per frame

@@ -17,7 +17,7 @@ public class MapManager : MonoBehaviour
 	void Start()
 	{
 		// 맵 블록 그리기
-		LineRenderer pathManager = GameObject.Find("Path Manager").GetComponent<LineRenderer>();
+		LineRenderer pathManager = FindObjectOfType<LineRenderer>();
 		path = new Vector3[pathManager.positionCount];
 		pathManager.GetPositions(path);
 		pathStart = path[0];

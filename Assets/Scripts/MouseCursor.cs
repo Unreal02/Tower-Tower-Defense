@@ -17,9 +17,9 @@ public class MouseCursor : MonoBehaviour
 
 	void Start()
 	{
-		cameraManager = GameObject.Find("Camera Manager").GetComponent<CameraManager>();
+		cameraManager = FindObjectOfType<CameraManager>();
 		cam = Camera.main;
-		size = GameObject.Find("Map Manager").GetComponent<MapManager>().GetSize();
+		size = FindObjectOfType<MapManager>().GetSize();
 		cursorState = CursorState.idle;
 	}
 

@@ -4,8 +4,8 @@ using UnityEngine;
 // 카메라 시점 관련된 작업을 처리합니다.
 public class CameraManager : MonoBehaviour
 {
-	public float rotateSpeed;
-	public float moveSpeed;
+	public float rotateSpeed; // 시점 회전 속도
+	public float moveSpeed; // 카메라 이동 속도
 
 	private Vector3 prevMousePosition;
 	private Vector3 currMousePosition;
@@ -14,7 +14,7 @@ public class CameraManager : MonoBehaviour
 	void Start()
 	{
 		myCamera = Camera.main;
-		MapManager mapManager = GameObject.Find("Map Manager").GetComponent<MapManager>();
+		MapManager mapManager = FindObjectOfType<MapManager>();
 		Vector3 size = mapManager.GetSize();
 		Vector3 position = new Vector3((size.x - 1) / 2, (size.y - 1) / 2, (size.z - 1) / 2);
 		transform.position = position;
