@@ -65,8 +65,5 @@ public class MapManager : MonoBehaviour
 
 	}
 
-	public Vector3 GetSize()
-	{
-		return size;
-	}
+	public Vector3 GetSize() { return size; }
 }

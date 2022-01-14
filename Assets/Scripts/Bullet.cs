@@ -34,15 +34,12 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public int GetDamange() { return damage; }
+
     public void SetTarget(Enemy e)
     {
         target = e;
         direction = (target.transform.position - transform.position).normalized;
-    }
-
-    public int GetDamange()
-    {
-        return damage;
     }
 
 	private void OnTriggerEnter(Collider other)

@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 	public int hp;
 	public float speed;
 
+	private PlayerInfo playerInfo;
 	private LineRenderer pathManager;
 	private EnemyManager enemyManager;
 	private Vector3[] path;
@@ -15,9 +16,9 @@ public class Enemy : MonoBehaviour
 
 	void Start()
 	{
+		playerInfo = FindObjectOfType<PlayerInfo>();
 		enemyManager = FindObjectOfType<EnemyManager>();
 		enemyManager.AddEnemy(this);
-
 		pathManager = FindObjectOfType<LineRenderer>();
 		path = new Vector3[pathManager.positionCount];
 		pathManager.GetPositions(path);
@@ -36,6 +37,7 @@ public class Enemy : MonoBehaviour
 			currentNode++; nextNode++;
 			if (nextNode == path.Length)
 			{
+				playerInfo.SubtractLife(hp);
 				Destroy(gameObject);
 				return;
 			}
@@ -62,5 +64,10 @@ public class Enemy : MonoBehaviour
 				Destroy(gameObject);
 			}
 		}
+	}
+
+	public float GetLocation()
+	{
+		return 100 * currentNode + (path[currentNode] - transform.position).magnitude;
 	}
 }

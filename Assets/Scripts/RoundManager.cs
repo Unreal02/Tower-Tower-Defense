@@ -27,7 +27,7 @@ public class RoundManager : MonoBehaviour
 
 	void Start()
 	{
-		text = GameObject.Find("Next Round Button").transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
+		text = GameObject.Find("Next Round Button").GetComponentInChildren<UnityEngine.UI.Text>();
 	}
 
 	void Update()
@@ -60,5 +60,10 @@ public class RoundManager : MonoBehaviour
 		currentTime = 0;
 		next = 0;
 		onRound = true;
+	}
+
+	public int GetCurrentRound()
+	{
+		return currentRound;
 	}
 }

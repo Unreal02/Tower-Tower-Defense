@@ -8,6 +8,7 @@ public class MouseCursor : MonoBehaviour
 
 	public GameObject towerStack;
 
+	private PlayerInfo playerInfo;
 	private CursorState cursorState;
 	private CameraManager cameraManager;
 	private Camera cam;
@@ -17,6 +18,7 @@ public class MouseCursor : MonoBehaviour
 
 	void Start()
 	{
+		playerInfo = FindObjectOfType<PlayerInfo>();
 		cameraManager = FindObjectOfType<CameraManager>();
 		cam = Camera.main;
 		size = FindObjectOfType<MapManager>().GetSize();
@@ -35,7 +37,7 @@ public class MouseCursor : MonoBehaviour
 			int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower"));
 			// 커서가 블록 또는 타워에 닿아 있고
 			// 윗 칸이 비어 있고
-			// 경로를 건드리지 않는 경우 (todo)
+			// todo: 경로를 건드리지 않는 경우
 			if (Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask)
 				&& !Physics.Raycast(hit.transform.position, new Vector3(0, 1, 0), out _hit, 1, layerMask))
 			{
@@ -104,28 +106,36 @@ public class MouseCursor : MonoBehaviour
 	public void OnClickTowerButton(GameObject tower)
 	{
 		if (currentTower) currentTower.GetComponent<Tower>().SetSelect(false);
+
+		// 돈이 모자라지 않는지 확인
+		if (playerInfo.GetMoney() < tower.GetComponent<Tower>().GetCost())
+			return;
+
 		currentTower = Instantiate(tower);
 		currentTowerStack = Instantiate(towerStack, new Vector3(0, -1, 0), Quaternion.identity, currentTower.transform);
+
 		// Raycast에서 자기 자신을 인식하는 것을 막기 위해 임시로 레이어를 바꿈
 		ChangeTowerLayer(LayerMask.NameToLayer("Ignore Raycast"));
+		Tower towerComponent = currentTower.GetComponent<Tower>();
 		cursorState = CursorState.installTower;
+		towerComponent.enabled = false; // Tower 컴포넌트를 끔으로써 공격 안 하도록 만듦
+        currentTower.transform.GetChild(1).transform.localScale = 2 * towerComponent.GetRadius() * new Vector3(1, 1, 1); // 반경을 나타내는 구 설정
 	}
 
-	public void OnClickInstallTower()
+	public void OnClickInstallTower() // 타워 설치하는 순간
 	{
 		if (currentTower == null || !currentTower.activeSelf) return;
+		Tower towerComponent = currentTower.GetComponent<Tower>();
 		currentTower.transform.GetChild(1).gameObject.SetActive(false);
+		towerComponent.enabled = true;
 		ChangeTowerLayer(LayerMask.NameToLayer("Tower"));
 		currentTower = null;
 		cursorState = CursorState.idle;
+		playerInfo.SubtractMoney(towerComponent.GetCost());
 	}
 
 	public void ChangeTowerLayer(int layer)
 	{
 		currentTower.layer = layer;
-		// foreach (Transform child in currentTower.transform)
-		// {
-		// 	child.gameObject.layer = layer;
-		// }
 	}
 }

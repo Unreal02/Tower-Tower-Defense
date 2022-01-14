@@ -18,10 +18,7 @@ public class EnemyManager : MonoBehaviour
         
     }
 
-    public HashSet<Enemy> GetEnemySet()
-    {
-        return enemySet;
-    }
+    public HashSet<Enemy> GetEnemySet() { return enemySet; }
 
     public void AddEnemy(Enemy e)
     {
