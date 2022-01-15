@@ -862,7 +862,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 6, z: 10}
-  block: {fileID: 6038375339025926904, guid: aa87f62f1a931c34bbd15d6f9988aa15, type: 3}
+  block: {fileID: 6038375339025926904, guid: b31fbfc92852e9b40b4f178f5295b06b, type: 3}
+  material1: {fileID: 2100000, guid: 63f1132bbd0b0124ea5e3eddedf97e56, type: 2}
+  material2: {fileID: 2100000, guid: 3af7e53c12da7284fb368a97c70153b6, type: 2}
+  material3: {fileID: 2100000, guid: c2ab03953b97a1341887bdf8510b3381, type: 2}
 --- !u!4 &922904218
 Transform:
   m_ObjectHideFlags: 0
