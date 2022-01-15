@@ -49,7 +49,7 @@ MonoBehaviour:
   damage: 1
   speed: 50
   targeting: 0
-  life: 500
+  life: 1
 --- !u!135 &4772732888819021359
 SphereCollider:
   m_ObjectHideFlags: 0

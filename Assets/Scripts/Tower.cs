@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // 타워 오브젝트입니다.
 // mouseCursor에서 타워 설치하기 전에는 비활성화 상태입니다.
@@ -85,6 +86,7 @@ public class Tower : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        mouseCursor.OnClickTower(gameObject);
+        if (!EventSystem.current.IsPointerOverGameObject())
+            mouseCursor.OnClickTower(gameObject);
     }
 }

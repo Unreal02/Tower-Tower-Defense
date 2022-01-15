@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // 타워 설치에 대한 작업을 처리합니다.
 public class MouseCursor : MonoBehaviour
@@ -27,14 +28,31 @@ public class MouseCursor : MonoBehaviour
 
 	void Update()
 	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			RaycastHit hit;
+			float mouseX = Input.mousePosition.x;
+			float mouseY = Input.mousePosition.y;
+			int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower")) + (1 << LayerMask.NameToLayer("UI"));
+
+			// 빈 공간을 좌클릭하면 idle 상태로 전환
+			if (!Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask))
+			{
+				if (cursorState == CursorState.installTower) Destroy(currentTower);
+				if (cursorState == CursorState.selectTower) currentTower.GetComponent<Tower>().SetSelect(false);
+				cursorState = CursorState.idle;
+				currentTower = null;
+			}
+		}
+
 		if (cursorState == CursorState.installTower)
 		{
 			RaycastHit hit, _hit;
 			Vector3 camDir = cameraManager.transform.position - cam.transform.position;
 			float mouseX = Input.mousePosition.x;
 			float mouseY = Input.mousePosition.y;
-
 			int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower"));
+
 			// 커서가 블록 또는 타워에 닿아 있고
 			// 윗 칸이 비어 있고
 			// todo: 경로를 건드리지 않는 경우
@@ -105,7 +123,8 @@ public class MouseCursor : MonoBehaviour
 
 	public void OnClickTowerButton(GameObject tower)
 	{
-		if (currentTower) currentTower.GetComponent<Tower>().SetSelect(false);
+		if (cursorState == CursorState.installTower) Destroy(currentTower);
+		if (cursorState == CursorState.selectTower) currentTower.GetComponent<Tower>().SetSelect(false);
 
 		// 돈이 모자라지 않는지 확인
 		if (playerInfo.GetMoney() < tower.GetComponent<Tower>().GetCost())

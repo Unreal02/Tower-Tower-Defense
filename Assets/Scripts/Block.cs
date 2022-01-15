@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // 블록 오브젝트입니다.
 public class Block : MonoBehaviour
@@ -21,6 +22,7 @@ public class Block : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        mouseCursor.OnClickBlock();
+        if (!EventSystem.current.IsPointerOverGameObject())
+            mouseCursor.OnClickBlock();
     }
 }

@@ -41,6 +41,7 @@ public class MapManager : MonoBehaviour
 					temp = Instantiate(block, new Vector3(x, y, z), Quaternion.identity, transform);
 					if (new Vector3(x, y, z) == pathStart) temp.GetComponent<MeshRenderer>().material = material1;
 					else temp.GetComponent<MeshRenderer>().material = material3;
+					temp.layer = LayerMask.NameToLayer("Ignore Raycast");
 				}
 
 		for (int x = (int)pathEnd.x - 1; x <= (int)pathEnd.x + 1; x++)
@@ -52,6 +53,7 @@ public class MapManager : MonoBehaviour
 					temp = Instantiate(block, new Vector3(x, y, z), Quaternion.identity, transform);
 					if (new Vector3(x, y, z) == pathEnd) temp.GetComponent<MeshRenderer>().material = material1;
 					else temp.GetComponent<MeshRenderer>().material = material3;
+					temp.layer = LayerMask.NameToLayer("Ignore Raycast");
 				}
 	}
 
