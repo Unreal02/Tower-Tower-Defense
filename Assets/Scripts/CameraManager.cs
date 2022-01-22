@@ -4,8 +4,10 @@ using UnityEngine;
 // 카메라 시점 관련된 작업을 처리합니다.
 public class CameraManager : MonoBehaviour
 {
-	public float rotateSpeed; // 시점 회전 속도
-	public float moveSpeed; // 카메라 이동 속도
+	public float mouseRotateSpeed; // 마우스 시점 회전 속도
+	public float mouseMoveSpeed; // 마우스 카메라 이동 속도
+	public float keyboardRotateSpeed; // 키보드 시점 회전 속도
+	public float keyboardMoveSpeed; // 키보드 카메라 이동 속도
 
 	private Vector3 prevMousePosition;
 	private Vector3 currMousePosition;
@@ -22,12 +24,12 @@ public class CameraManager : MonoBehaviour
 
 	void Update()
 	{
-		// 왼쪽 버튼
-		if (Input.GetMouseButtonDown(0) && !Input.GetMouseButton(2))
+		// 오른쪽 버튼: 카메라 회전
+		if (Input.GetMouseButtonDown(1) && !Input.GetMouseButton(2))
 		{
 			prevMousePosition = currMousePosition = Input.mousePosition;
 		}
-		if (Input.GetMouseButton(0) && !Input.GetMouseButton(2))
+		if (Input.GetMouseButton(1) && !Input.GetMouseButton(2))
 		{
 			prevMousePosition = currMousePosition;
 			currMousePosition = Input.mousePosition;
@@ -35,13 +37,17 @@ public class CameraManager : MonoBehaviour
 			Rotate(-deltaMousePosition.y, deltaMousePosition.x);
 		}
 
-		// 스크롤
+		// Q/E: 카메라 회전
+		if (Input.GetKey(KeyCode.Q)) Rotate(0, keyboardRotateSpeed);
+		if (Input.GetKey(KeyCode.E)) Rotate(0, -keyboardRotateSpeed);
+
+		// 스크롤: 확대/축소
 		if (Input.mouseScrollDelta.y != 0)
 		{
 			myCamera.orthographicSize = Mathf.Clamp(myCamera.orthographicSize - Input.mouseScrollDelta.y, 1, 20);
 		}
 
-		// 가운데 버튼
+		// 가운데 버튼: 카메라 이동
 		if (Input.GetMouseButtonDown(2) && !Input.GetMouseButton(0))
 		{
 			prevMousePosition = currMousePosition = Input.mousePosition;
@@ -53,13 +59,19 @@ public class CameraManager : MonoBehaviour
 			Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
 			Move(deltaMousePosition.x, deltaMousePosition.y);
 		}
+
+		// W/A/S/D: 카메라 이동
+		if (Input.GetKey(KeyCode.W)) Move(0, -keyboardMoveSpeed);
+		if (Input.GetKey(KeyCode.S)) Move(0, keyboardMoveSpeed);
+		if (Input.GetKey(KeyCode.A)) Move(keyboardMoveSpeed, 0);
+		if (Input.GetKey(KeyCode.D)) Move(-keyboardMoveSpeed, 0);
 	}
 
 	private void Rotate(float x, float y)
 	{
 		Vector3 vector = transform.rotation.eulerAngles;
-		vector.x = Mathf.Clamp(vector.x + x * Time.deltaTime * rotateSpeed, 0, 90);
-		vector.y = vector.y + y * Time.deltaTime * rotateSpeed;
+		vector.x = Mathf.Clamp(vector.x + x * Time.deltaTime * mouseRotateSpeed, 0, 90);
+		vector.y = vector.y + y * Time.deltaTime * mouseRotateSpeed;
 		transform.rotation = Quaternion.Euler(vector);
 	}
 
@@ -75,7 +87,7 @@ public class CameraManager : MonoBehaviour
 		Vector3 Y = Vector3.Cross(cameraDirection, X).normalized;
 
 		Vector3 position = transform.position;
-		position += (X * x + Y * y) * Time.deltaTime * myCamera.orthographicSize * moveSpeed;
+		position += (X * x + Y * y) * Time.deltaTime * myCamera.orthographicSize * mouseMoveSpeed;
 		transform.position = position;
 	}
 }
