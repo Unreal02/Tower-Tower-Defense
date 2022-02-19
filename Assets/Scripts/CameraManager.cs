@@ -37,9 +37,11 @@ public class CameraManager : MonoBehaviour
 			Rotate(-deltaMousePosition.y, deltaMousePosition.x);
 		}
 
-		// Q/E: 카메라 회전
+		// Q/E/C/V: 카메라 회전
 		if (Input.GetKey(KeyCode.Q)) Rotate(0, keyboardRotateSpeed);
 		if (Input.GetKey(KeyCode.E)) Rotate(0, -keyboardRotateSpeed);
+		if (Input.GetKey(KeyCode.C)) Rotate(keyboardRotateSpeed, 0);
+		if (Input.GetKey(KeyCode.V)) Rotate(-keyboardRotateSpeed, 0);
 
 		// 스크롤: 확대/축소
 		if (Input.mouseScrollDelta.y != 0)
