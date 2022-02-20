@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     private HashSet<Enemy> enemySet;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +15,7 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public HashSet<Enemy> GetEnemySet() { return enemySet; }

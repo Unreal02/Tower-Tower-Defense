@@ -9,10 +9,17 @@ using UnityEngine.EventSystems;
 // 타워를 설치하는 순간 활성화됩니다.
 public class Tower : MonoBehaviour
 {
+    [Header("타워 정보")]
     public int cost; // 가격
     public float radius; // 공격 반경
     public float delay; // 공격 딜레이 시간
+
+    [Header("투사체 정보")]
     public GameObject bullet; // 투사체
+    public int damage; // 공격력
+    public float speed; // 투사체 발사 속도
+    public bool targeting; // 투사체가 목표를 따라가는지
+    public float life; // 투사체 지속 시간
 
     private Component radiusSphere; // 반경을 나타내는 투명한 구
     private MouseCursor mouseCursor; // 마우스 커서 오브젝트
@@ -42,6 +49,7 @@ public class Tower : MonoBehaviour
             {
                 Bullet newBullet = Instantiate(bullet, transform.position, transform.rotation).GetComponent<Bullet>();
                 newBullet.SetTarget(target);
+                newBullet.SetBulletInfo(damage, speed, targeting, life);
                 Invoke("SetAttackable", delay);
                 attackable = false;
             }
@@ -61,6 +69,8 @@ public class Tower : MonoBehaviour
 
     public int GetCost() { return cost; }
     public float GetRadius() { return radius; }
+    public float GetDelay() { return delay; }
+    public float GetDamage() { return damage; }
 
     private Enemy GetTarget(Func<Enemy, float> func) // func 함수값이 최대인 적을 선택
     {

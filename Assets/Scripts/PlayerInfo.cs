@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerInfo : MonoBehaviour
     private int life;
 
     private RoundManager roundManager;
-    private UnityEngine.UI.Text text;
+    private Text text;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,7 @@ public class PlayerInfo : MonoBehaviour
         money = initialMoney;
         life = initialLife;
         roundManager = FindObjectOfType<RoundManager>();
-        text = GetComponentInChildren<UnityEngine.UI.Text>();
+        text = GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame

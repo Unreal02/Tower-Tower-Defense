@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage; // 공격력
-    public float speed; // 속력
-    public bool targeting; // 목표를 따라가는지 여부
-    public float life; // 수명
+    private int damage; // 공격력
+    private float speed; // 속력
+    private bool targeting; // 목표를 따라가는지 여부
+    private float life; // 수명
 
     private Enemy target; // 목표
     private Vector3 direction; // 날아가는 방향
@@ -34,6 +34,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public void SetBulletInfo(int d, float s, bool t, float l)
+    {
+        damage = d;
+        speed = s;
+        targeting = t;
+        life = l;
+    }
+
     public int GetDamange() { return damage; }
 
     public void SetTarget(Enemy e)
@@ -42,12 +50,12 @@ public class Bullet : MonoBehaviour
         direction = (target.transform.position - transform.position).normalized;
     }
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("Enemy"))
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
         {
             // todo: 관통력 개념 추가하기
             Destroy(gameObject);
         }
-	}
+    }
 }
