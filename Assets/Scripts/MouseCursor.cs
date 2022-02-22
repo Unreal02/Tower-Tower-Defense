@@ -35,10 +35,16 @@ public class MouseCursor : MonoBehaviour
             RaycastHit hit;
             float mouseX = Input.mousePosition.x;
             float mouseY = Input.mousePosition.y;
-            int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower")) + (1 << LayerMask.NameToLayer("UI"));
+            int layerMask = (1 << LayerMask.NameToLayer("Block")) + (1 << LayerMask.NameToLayer("Tower"));
+            bool raycastResult = Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask);
 
-            // 빈 공간을 좌클릭하면 idle 상태로 전환
-            if (!Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask))
+            // UI 클릭
+            Vector2 mp = cam.ScreenToWorldPoint(Input.mousePosition);
+            Ray2D ray2 = new Ray2D(mp, Vector2.zero);
+            RaycastHit2D hit2d = Physics2D.Raycast(ray2.origin, ray2.direction);
+
+            // 빈 공간(UI도 없는 곳)을 좌클릭하면 idle 상태로 전환
+            if (!raycastResult && hit2d.collider != null)
             {
                 if (cursorState == CursorState.installTower) Destroy(currentTower);
                 if (cursorState == CursorState.selectTower) currentTower.GetComponent<Tower>().SetSelect(false);
