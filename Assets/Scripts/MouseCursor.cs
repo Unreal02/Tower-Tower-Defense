@@ -1,5 +1,6 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 // 타워 설치에 대한 작업을 처리합니다.
@@ -18,6 +19,8 @@ public class MouseCursor : MonoBehaviour
     private Vector3 size;
     private TowerStatus towerStatus;
 
+    private GraphicRaycaster gr; // UI 클릭
+
     void Start()
     {
         playerInfo = FindObjectOfType<PlayerInfo>();
@@ -26,6 +29,7 @@ public class MouseCursor : MonoBehaviour
         cam = Camera.main;
         size = FindObjectOfType<MapManager>().GetSize();
         cursorState = CursorState.idle;
+        gr = FindObjectOfType<GraphicRaycaster>(); // UI 클릭
     }
 
     void Update()
@@ -39,12 +43,13 @@ public class MouseCursor : MonoBehaviour
             bool raycastResult = Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask);
 
             // UI 클릭
-            Vector2 mp = cam.ScreenToWorldPoint(Input.mousePosition);
-            Ray2D ray2 = new Ray2D(mp, Vector2.zero);
-            RaycastHit2D hit2d = Physics2D.Raycast(ray2.origin, ray2.direction);
+            PointerEventData ped = new PointerEventData(null);
+            ped.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            gr.Raycast(ped, results);
 
             // 빈 공간(UI도 없는 곳)을 좌클릭하면 idle 상태로 전환
-            if (!raycastResult && hit2d.collider != null)
+            if (!raycastResult && results.Count <= 0)
             {
                 if (cursorState == CursorState.installTower) Destroy(currentTower);
                 if (cursorState == CursorState.selectTower) currentTower.GetComponent<Tower>().SetSelect(false);
