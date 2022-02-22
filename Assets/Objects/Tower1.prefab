@@ -142,14 +142,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad8bd483542caf47be91903f1a2308d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 100
-  radius: 3
-  delay: 1
-  damage: 1
-  speed: 50
-  targeting: 0
-  life: 1
-  bullet: {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  cost: 64000000320000006400000096000000c8000000
+  radius:
+  - 3
+  - 3.25
+  - 3.5
+  - 3.75
+  - 4
+  delay:
+  - 1
+  - 0.9
+  - 0.8
+  - 0.7
+  - 0.6
+  bullet:
+  - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  damage: 0100000001000000010000000100000001000000
+  speed:
+  - 50
+  - 50
+  - 50
+  - 50
+  - 50
+  targeting: 0000000000
+  life:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
 --- !u!64 &6993727733708563867
 MeshCollider:
   m_ObjectHideFlags: 0
