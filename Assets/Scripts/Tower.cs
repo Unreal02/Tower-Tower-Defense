@@ -65,8 +65,8 @@ public class Tower : MonoBehaviour
 
     public void SetSelect(bool b)
     {
-        radiusSphere.gameObject.SetActive(b);
         select = b;
+        radiusSphere.gameObject.SetActive(b);
     }
 
     public int GetCost() { return cost[level]; }
@@ -76,7 +76,11 @@ public class Tower : MonoBehaviour
     public float GetDamage() { return damage[level]; }
     public int GetLevel() { return level; }
 
-    public void AddLevel() { level++; }
+    public void AddLevel()
+    {
+        level++;
+        radiusSphere.transform.localScale = 2 * radius[level] * new Vector3(1, 1, 1); // 반경을 나타내는 구 설정
+    }
 
     private Enemy GetTarget(Func<Enemy, float> func) // func 함수값이 최대인 적을 선택
     {
