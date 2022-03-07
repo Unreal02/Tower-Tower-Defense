@@ -96,7 +96,7 @@ public class MouseCursor : MonoBehaviour
 
     public void OnClickBlock()
     {
-        if (cursorState == CursorState.installTower) OnClickInstallTower();
+        if (cursorState == CursorState.installTower) OnInstallTower();
         else
         {
             if (currentTower) currentTower.GetComponent<Tower>().SetSelect(false);
@@ -110,7 +110,7 @@ public class MouseCursor : MonoBehaviour
         switch (cursorState)
         {
             case CursorState.installTower:
-                OnClickInstallTower();
+                OnInstallTower();
                 break;
             case CursorState.selectTower:
                 if (currentTower == tower)
@@ -154,7 +154,7 @@ public class MouseCursor : MonoBehaviour
         currentTower.transform.GetChild(1).transform.localScale = 2 * towerComponent.GetRadius() * new Vector3(1, 1, 1); // 반경을 나타내는 구 설정
     }
 
-    public void OnClickInstallTower() // 타워 설치하는 순간
+    public void OnInstallTower() // 타워 설치하는 순간
     {
         if (currentTower == null || !currentTower.activeSelf) return;
         Tower towerComponent = currentTower.GetComponent<Tower>();
@@ -164,6 +164,7 @@ public class MouseCursor : MonoBehaviour
         SetCurrentTower(null);
         SetCursorState(CursorState.idle);
         playerInfo.SubtractMoney(towerComponent.GetCost());
+        towerComponent.OnInstallTower();
     }
 
     public void ChangeTowerLayer(int layer)

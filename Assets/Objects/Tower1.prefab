@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad8bd483542caf47be91903f1a2308d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idx: 1
   cost: 64000000320000006400000096000000c8000000
   radius:
   - 3
