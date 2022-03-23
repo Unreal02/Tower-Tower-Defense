@@ -14,9 +14,19 @@ public class SynergyManager : MonoBehaviour
     }
 
     [Serializable]
+    public class Bonus
+    {
+        public float radiusBonus;
+        public float delayBonus;
+        public int damageBonus;
+        public float speedBonus;
+    }
+
+    [Serializable]
     public class Synergy
     {
         public IdxCountPair[] idxCountPairs;
+        public Bonus bonus;
     }
 
     public Synergy[] synergyData;

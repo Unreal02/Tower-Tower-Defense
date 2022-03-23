@@ -22,6 +22,11 @@ public class Tower : MonoBehaviour
     public bool[] targeting; // 투사체가 목표를 따라가는지
     public float[] life; // 투사체 지속 시간
 
+    // 보너스는 (원래 값 + 보너스 값)으로 적용됨
+    private float radiusBonus;
+    private float delayBonus;
+    private int damageBonus;
+    private float speedBonus;
 
     private Dictionary<int, int> stackedTower = new Dictionary<int, int>(); // 쌓인 타워의 목록 (맨 아래 타워에만 존재함). key: idx, value: 개수
     private HashSet<int> activatedSynergies = new HashSet<int>(); // 현재 활성화된 시너지
@@ -62,8 +67,8 @@ public class Tower : MonoBehaviour
             {
                 Bullet newBullet = Instantiate(bullet[level], transform.position, transform.rotation).GetComponent<Bullet>();
                 newBullet.SetTarget(target);
-                newBullet.SetBulletInfo(damage[level], speed[level], targeting[level], life[level]);
-                Invoke("SetAttackable", delay[level]);
+                newBullet.SetBulletInfo(damage[level] + damageBonus, speed[level] + speedBonus, targeting[level], life[level]);
+                Invoke("SetAttackable", delay[level] + delayBonus);
                 attackable = false;
             }
         }
@@ -82,9 +87,9 @@ public class Tower : MonoBehaviour
 
     public int GetCost() { return cost[level]; }
     public int GetNextCost() { return cost[level + 1]; }
-    public float GetRadius() { return radius[level]; }
-    public float GetDelay() { return delay[level]; }
-    public float GetDamage() { return damage[level]; }
+    public float GetRadius() { return radius[level] + radiusBonus; }
+    public float GetDelay() { return delay[level] + delayBonus; }
+    public float GetDamage() { return damage[level] + damageBonus; }
     public int GetLevel() { return level; }
     public Dictionary<int, int> GetStackedTower()
     {
@@ -93,10 +98,11 @@ public class Tower : MonoBehaviour
     }
     public void SetUpperTower(Tower t) { upperTower = t; }
 
-    public void AddLevel()
+    public void AddLevel() { level++; UpdateRadiusSphere(); }
+
+    private void UpdateRadiusSphere()
     {
-        level++;
-        radiusSphere.transform.localScale = 2 * radius[level] * new Vector3(1, 1, 1); // 반경을 나타내는 구 설정
+        radiusSphere.transform.localScale = 2 * (radius[level] + radiusBonus) * new Vector3(1, 1, 1);
     }
 
     private Enemy GetTarget(Func<Enemy, float> func) // func 함수값이 최대인 적을 선택
@@ -110,7 +116,7 @@ public class Tower : MonoBehaviour
             {
                 float distance = (e.transform.position - transform.position).magnitude;
                 float key = func(e);
-                if (distance <= radius[level] && key > targetKey)
+                if (distance <= radius[level] + radiusBonus && key > targetKey)
                 {
                     target = e;
                     targetKey = key;
@@ -157,14 +163,32 @@ public class Tower : MonoBehaviour
         for (int i = 0; i < synergyManager.synergyData.Length; i++)
         {
             var synergy = synergyManager.synergyData[i];
-            bool check = true; // 해당 synergy를 얻을 수 있는가?
+            bool check1 = true; // 해당 시너지를 위한 타워를 모두 쌓았는가?
+            bool check2 = false; // 타워 종류가 시너지를 구성하는가?
             foreach (var idxCountPair in synergy.idxCountPairs)
             {
-                int idx = idxCountPair.idx;
-                int count = idxCountPair.count;
-                if (!dict.ContainsKey(idx) || dict[idx] < count) check = false;
+                int towerIdx = idxCountPair.idx;
+                int towerCount = idxCountPair.count;
+                if (!dict.ContainsKey(towerIdx) || dict[towerIdx] < towerCount) check1 = false;
+                if (towerIdx == idx) check2 = true;
             }
-            if (check) activatedSynergies.Add(i);
+            if (check1 && check2) activatedSynergies.Add(i);
         }
+
+        // 스탯 보너스 처리
+        radiusBonus = 0;
+        delayBonus = 0;
+        damageBonus = 0;
+        speedBonus = 0;
+
+        foreach (int synergyIdx in activatedSynergies)
+        {
+            radiusBonus += synergyManager.synergyData[synergyIdx].bonus.radiusBonus;
+            delayBonus += synergyManager.synergyData[synergyIdx].bonus.delayBonus;
+            damageBonus += synergyManager.synergyData[synergyIdx].bonus.damageBonus;
+            speedBonus += synergyManager.synergyData[synergyIdx].bonus.speedBonus;
+        }
+
+        UpdateRadiusSphere();
     }
 }
