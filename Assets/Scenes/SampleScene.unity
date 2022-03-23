@@ -322,7 +322,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &319366357
 GameObject:
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseRotateSpeed: 100
   mouseMoveSpeed: 1.4
-  keyboardRotateSpeed: 1.4
+  keyboardRotateSpeed: 100
   keyboardMoveSpeed: 1.4
 --- !u!1 &963194225
 GameObject:
@@ -2193,7 +2193,7 @@ RectTransform:
   - {fileID: 127853451}
   - {fileID: 1210033467}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

@@ -34,7 +34,7 @@ public class CameraManager : MonoBehaviour
             prevMousePosition = currMousePosition;
             currMousePosition = Input.mousePosition;
             Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
-            Rotate(-deltaMousePosition.y, deltaMousePosition.x);
+            Rotate(-deltaMousePosition.y * mouseRotateSpeed, deltaMousePosition.x * mouseRotateSpeed);
         }
 
         // Q/E/C/V: 카메라 회전
@@ -59,7 +59,7 @@ public class CameraManager : MonoBehaviour
             prevMousePosition = currMousePosition;
             currMousePosition = Input.mousePosition;
             Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
-            Move(deltaMousePosition.x, deltaMousePosition.y);
+            Move(deltaMousePosition.x * mouseMoveSpeed, deltaMousePosition.y * mouseMoveSpeed);
         }
 
         // W/A/S/D: 카메라 이동
@@ -72,8 +72,8 @@ public class CameraManager : MonoBehaviour
     private void Rotate(float x, float y)
     {
         Vector3 vector = transform.rotation.eulerAngles;
-        vector.x = Mathf.Clamp(vector.x + x * Time.deltaTime * mouseRotateSpeed, 0, 90);
-        vector.y = vector.y + y * Time.deltaTime * mouseRotateSpeed;
+        vector.x = Mathf.Clamp(vector.x + x * Time.deltaTime, 0, 90);
+        vector.y = vector.y + y * Time.deltaTime;
         transform.rotation = Quaternion.Euler(vector);
     }
 
@@ -89,7 +89,7 @@ public class CameraManager : MonoBehaviour
         Vector3 Y = Vector3.Cross(cameraDirection, X).normalized;
 
         Vector3 position = transform.position;
-        position += (X * x + Y * y) * Time.deltaTime * myCamera.orthographicSize * mouseMoveSpeed;
+        position += (X * x + Y * y) * Time.deltaTime * myCamera.orthographicSize;
         transform.position = position;
     }
 }
