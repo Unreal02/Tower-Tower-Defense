@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public float mouseRotateSpeed; // 마우스 시점 회전 속도
-    public float mouseMoveSpeed; // 마우스 카메라 이동 속도
     public float keyboardRotateSpeed; // 키보드 시점 회전 속도
     public float keyboardMoveSpeed; // 키보드 카메라 이동 속도
 
@@ -59,7 +58,7 @@ public class CameraManager : MonoBehaviour
             prevMousePosition = currMousePosition;
             currMousePosition = Input.mousePosition;
             Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
-            Move(deltaMousePosition.x * mouseMoveSpeed, deltaMousePosition.y * mouseMoveSpeed);
+            Move(deltaMousePosition.x, deltaMousePosition.y);
         }
 
         // W/A/S/D: 카메라 이동
@@ -77,6 +76,7 @@ public class CameraManager : MonoBehaviour
         transform.rotation = Quaternion.Euler(vector);
     }
 
+    // 마우스가 이동한 거리가 픽셀 단위로 (x, y)임
     private void Move(float x, float y)
     {
         Vector3 cameraDirection = transform.position - myCamera.transform.position;
@@ -89,7 +89,7 @@ public class CameraManager : MonoBehaviour
         Vector3 Y = Vector3.Cross(cameraDirection, X).normalized;
 
         Vector3 position = transform.position;
-        position += (X * x + Y * y) * Time.deltaTime * myCamera.orthographicSize;
+        position += (X * x + Y * y) / Screen.height * myCamera.orthographicSize * 2;
         transform.position = position;
     }
 }
