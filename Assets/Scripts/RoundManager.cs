@@ -10,7 +10,8 @@ public class RoundManager : MonoBehaviour
     public class Spawn
     {
         public float time;
-        public GameObject enemy;
+        public string enemy;
+        public GameObject enemyObject;
     }
 
     [Serializable]
@@ -19,7 +20,14 @@ public class RoundManager : MonoBehaviour
         public Spawn[] spawns;
     }
 
-    public Round[] rounds;
+    [Serializable]
+    public class Rounds
+    {
+        public Round[] rounds;
+    }
+
+    private Rounds roundInfo;
+    public string roundInfoFileName;
 
     private int next = 0;
     private int currentRound = 0;
@@ -30,6 +38,19 @@ public class RoundManager : MonoBehaviour
     void Start()
     {
         text = GameObject.Find("Next Round Button").GetComponentInChildren<Text>();
+
+        // json 파싱
+        TextAsset textAsset = Resources.Load<TextAsset>(roundInfoFileName);
+        roundInfo = JsonUtility.FromJson<Rounds>(textAsset.ToString());
+
+        // Spawn.enemy(string)에서 Spawn.enemyObject(GameObject)로 변환
+        foreach (Round round in roundInfo.rounds)
+        {
+            foreach (Spawn spawn in round.spawns)
+            {
+                spawn.enemyObject = Resources.Load<GameObject>("Objects/" + spawn.enemy);
+            }
+        }
     }
 
     void Update()
@@ -37,12 +58,12 @@ public class RoundManager : MonoBehaviour
         if (onRound)
         {
             currentTime += Time.deltaTime;
-            if (next < rounds[currentRound].spawns.Length && currentTime >= rounds[currentRound].spawns[next].time)
+            if (next < roundInfo.rounds[currentRound].spawns.Length && currentTime >= roundInfo.rounds[currentRound].spawns[next].time)
             {
-                Instantiate(rounds[currentRound].spawns[next].enemy, Vector3.zero, Quaternion.identity, transform);
+                Instantiate(roundInfo.rounds[currentRound].spawns[next].enemyObject, Vector3.zero, Quaternion.identity, transform);
                 next++;
             }
-            else if (next >= rounds[currentRound].spawns.Length)
+            else if (next >= roundInfo.rounds[currentRound].spawns.Length)
             {
                 if (transform.childCount == 0)
                 {
@@ -57,7 +78,7 @@ public class RoundManager : MonoBehaviour
 
     public void OnClickNextRound()
     {
-        if (currentRound >= rounds.Length) return;
+        if (currentRound >= roundInfo.rounds.Length) return;
         if (onRound) return;
         currentTime = 0;
         next = 0;

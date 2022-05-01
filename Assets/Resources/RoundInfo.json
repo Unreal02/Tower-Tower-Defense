@@ -1,0 +1,27 @@
+{
+    "rounds": [
+        {
+            "spawns": [
+                { "time": 0.0, "enemy": "Enemy1" },
+                { "time": 1.0, "enemy": "Enemy1" },
+                { "time": 2.0, "enemy": "Enemy1" },
+                { "time": 3.0, "enemy": "Enemy1" },
+                { "time": 4.0, "enemy": "Enemy1" }
+            ]
+        },
+        {
+            "spawns": [
+                { "time": 0.0, "enemy": "Enemy1" },
+                { "time": 0.5, "enemy": "Enemy1" },
+                { "time": 1.0, "enemy": "Enemy1" },
+                { "time": 1.5, "enemy": "Enemy1" },
+                { "time": 2.0, "enemy": "Enemy1" },
+                { "time": 2.5, "enemy": "Enemy1" },
+                { "time": 3.0, "enemy": "Enemy1" },
+                { "time": 3.5, "enemy": "Enemy1" },
+                { "time": 4.0, "enemy": "Enemy1" },
+                { "time": 4.5, "enemy": "Enemy1" }
+            ]
+        }
+    ]
+}
