@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3816269943381183139}
   - component: {fileID: 534643792322856760}
   m_Layer: 7
-  m_Name: Block
+  m_Name: BlockWhite
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
