@@ -54,15 +54,12 @@ public class Enemy : MonoBehaviour
         enemyManager.RemoveEnemy(this);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void SubtractHp(int delta)
     {
-        if (other.gameObject.CompareTag("Bullet"))
+        hp -= delta;
+        if (hp <= 0)
         {
-            hp -= other.GetComponent<Bullet>().GetDamange();
-            if (hp <= 0)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 

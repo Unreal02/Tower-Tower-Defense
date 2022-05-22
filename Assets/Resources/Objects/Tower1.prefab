@@ -176,6 +176,7 @@ MonoBehaviour:
   - 1
   - 1
   - 1
+  bulletHp: 0100000001000000010000000100000001000000
 --- !u!64 &6993727733708563867
 MeshCollider:
   m_ObjectHideFlags: 0

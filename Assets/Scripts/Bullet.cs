@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public enum BulletType { normal, spread }
+    public BulletType bulletType;
+
     private int damage; // 공격력
     private float speed; // 속력
     private bool targeting; // 목표를 따라가는지 여부
     private float life; // 수명
+    private int hp; // 관통력
 
     private Enemy target; // 목표
     private Vector3 direction; // 날아가는 방향
@@ -21,11 +25,19 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (targeting)
+        switch (bulletType)
         {
-            direction = (target.transform.position - transform.position).normalized;
+            case BulletType.normal:
+                if (targeting)
+                {
+                    direction = (target.transform.position - transform.position).normalized;
+                }
+                transform.Translate(direction * speed * Time.deltaTime);
+                break;
+            case BulletType.spread:
+                transform.localScale += speed * Time.deltaTime * new Vector3(1, 0, 1);
+                break;
         }
-        transform.Translate(direction * speed * Time.deltaTime);
 
         life -= Time.deltaTime;
         if (life < 0)
@@ -34,15 +46,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public void SetBulletInfo(int d, float s, bool t, float l)
+    public void SetBulletInfo(int d, float s, bool t, float l, int h)
     {
         damage = d;
         speed = s;
         targeting = t;
         life = l;
+        hp = h;
     }
-
-    public int GetDamange() { return damage; }
 
     public void SetTarget(Enemy e)
     {
@@ -54,8 +65,16 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            // todo: 관통력 개념 추가하기
-            Destroy(gameObject);
+            if (hp > 0)
+            {
+                Enemy enemy = other.GetComponent<Enemy>();
+                enemy.SubtractHp(damage);
+                hp -= 1;
+                if (hp <= 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

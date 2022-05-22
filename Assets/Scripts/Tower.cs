@@ -21,6 +21,7 @@ public class Tower : MonoBehaviour
     public float[] speed; // 투사체 발사 속도
     public bool[] targeting; // 투사체가 목표를 따라가는지
     public float[] life; // 투사체 지속 시간
+    public int[] bulletHp; // 투사체 관통력
 
     // 보너스는 (원래 값 + 보너스 값)으로 적용됨
     private float radiusBonus;
@@ -67,7 +68,7 @@ public class Tower : MonoBehaviour
             {
                 Bullet newBullet = Instantiate(bullet[level], transform.position, transform.rotation).GetComponent<Bullet>();
                 newBullet.SetTarget(target);
-                newBullet.SetBulletInfo(damage[level] + damageBonus, speed[level] + speedBonus, targeting[level], life[level]);
+                newBullet.SetBulletInfo(damage[level] + damageBonus, speed[level] + speedBonus, targeting[level], life[level], bulletHp[level]);
                 Invoke("SetAttackable", delay[level] + delayBonus);
                 attackable = false;
             }
