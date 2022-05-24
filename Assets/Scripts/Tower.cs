@@ -17,6 +17,7 @@ public class Tower : MonoBehaviour
 
     [Header("투사체 정보")]
     public GameObject[] bullet; // 투사체
+    public BulletType bulletType;
     public int[] damage; // 공격력
     public float[] speed; // 투사체 발사 속도
     public bool[] targeting; // 투사체가 목표를 따라가는지
@@ -43,8 +44,7 @@ public class Tower : MonoBehaviour
     private Tower upperTower;
     private Tower lowerTower;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         mouseCursor = FindObjectOfType<MouseCursor>();
         enemyManager = FindObjectOfType<EnemyManager>();
@@ -52,7 +52,11 @@ public class Tower : MonoBehaviour
         radiusSphere = transform.GetChild(1);
         attackable = true;
         level = 0;
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         UpdateSynergy(); // Start가 OnInstallTower보다 늦게 불려서 OnInstallTower에서 UpdateSynergy를 호출하면 안 되더라...
     }
 
@@ -101,9 +105,18 @@ public class Tower : MonoBehaviour
 
     public void AddLevel() { level++; UpdateRadiusSphere(); }
 
-    private void UpdateRadiusSphere()
+    public void UpdateRadiusSphere()
     {
-        radiusSphere.transform.localScale = 2 * (radius[level] + radiusBonus) * new Vector3(1, 1, 1);
+        float scale = 2 * (radius[level] + radiusBonus);
+        switch (bulletType)
+        {
+            case BulletType.normal:
+                radiusSphere.transform.localScale = scale * new Vector3(1, 1, 1);
+                break;
+            case BulletType.spread:
+                radiusSphere.transform.localScale = new Vector3(scale, radiusSphere.transform.localScale.y, scale);
+                break;
+        }
     }
 
     private Enemy GetTarget(Func<Enemy, float> func) // func 함수값이 최대인 적을 선택
