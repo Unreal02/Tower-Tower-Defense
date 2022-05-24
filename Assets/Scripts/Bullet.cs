@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BulletType { normal, spread }
+
 public class Bullet : MonoBehaviour
 {
-    public enum BulletType { normal, spread }
     public BulletType bulletType;
 
     private int damage; // 공격력

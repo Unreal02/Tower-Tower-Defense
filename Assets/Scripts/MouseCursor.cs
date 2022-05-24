@@ -148,10 +148,10 @@ public class MouseCursor : MonoBehaviour
 
         // Raycast에서 자기 자신을 인식하는 것을 막기 위해 임시로 레이어를 바꿈
         ChangeTowerLayer(LayerMask.NameToLayer("Ignore Raycast"));
-        Tower towerComponent = currentTower.GetComponent<Tower>();
         SetCursorState(CursorState.installTower);
+        Tower towerComponent = currentTower.GetComponent<Tower>();
+        towerComponent.UpdateRadiusSphere(); // 반경을 나타내는 구 설정
         towerComponent.enabled = false; // Tower 컴포넌트를 끔으로써 공격 안 하도록 만듦
-        currentTower.transform.GetChild(1).transform.localScale = 2 * towerComponent.GetRadius() * new Vector3(1, 1, 1); // 반경을 나타내는 구 설정
     }
 
     public void OnInstallTower() // 타워 설치하는 순간
