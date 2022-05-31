@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -17,13 +18,13 @@ public class RoundManager : MonoBehaviour
     [Serializable]
     public class Round
     {
-        public Spawn[] spawns;
+        public List<Spawn> spawns;
     }
 
     [Serializable]
     public class Rounds
     {
-        public Round[] rounds;
+        public List<Round> rounds;
     }
 
     private Rounds roundInfo;
@@ -58,12 +59,12 @@ public class RoundManager : MonoBehaviour
         if (onRound)
         {
             currentTime += Time.deltaTime;
-            if (next < roundInfo.rounds[currentRound].spawns.Length && currentTime >= roundInfo.rounds[currentRound].spawns[next].time)
+            if (next < roundInfo.rounds[currentRound].spawns.Count && currentTime >= roundInfo.rounds[currentRound].spawns[next].time)
             {
                 Instantiate(roundInfo.rounds[currentRound].spawns[next].enemyObject, Vector3.zero, Quaternion.identity, transform);
                 next++;
             }
-            else if (next >= roundInfo.rounds[currentRound].spawns.Length)
+            else if (next >= roundInfo.rounds[currentRound].spawns.Count)
             {
                 if (transform.childCount == 0)
                 {
@@ -78,7 +79,7 @@ public class RoundManager : MonoBehaviour
 
     public void OnClickNextRound()
     {
-        if (currentRound >= roundInfo.rounds.Length) return;
+        if (currentRound >= roundInfo.rounds.Count) return;
         if (onRound) return;
         currentTime = 0;
         next = 0;
