@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class SynergyManager : MonoBehaviour
 {
@@ -44,6 +47,7 @@ public class SynergyManager : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(SynergyManager.IdxCountPair))]
 public class IdxCountPairDrawer : PropertyDrawer
 {
@@ -64,3 +68,4 @@ public class IdxCountPairDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif

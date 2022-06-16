@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 // 라운드를 관리합니다.
 public class RoundManager : MonoBehaviour
@@ -92,6 +95,7 @@ public class RoundManager : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(RoundManager.Spawn))]
 public class SpawnDrawer : PropertyDrawer
 {
@@ -112,3 +116,4 @@ public class SpawnDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif
