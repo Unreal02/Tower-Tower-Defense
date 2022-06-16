@@ -26,21 +26,21 @@ public class CameraManager : MonoBehaviour
         // 오른쪽 버튼: 카메라 회전
         if (Input.GetMouseButtonDown(1) && !Input.GetMouseButton(2))
         {
-            prevMousePosition = currMousePosition = Input.mousePosition;
+            prevMousePosition = currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         }
         if (Input.GetMouseButton(1) && !Input.GetMouseButton(2))
         {
             prevMousePosition = currMousePosition;
-            currMousePosition = Input.mousePosition;
+            currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
             Rotate(-deltaMousePosition.y * mouseRotateSpeed, deltaMousePosition.x * mouseRotateSpeed);
         }
 
         // Q/E/C/V: 카메라 회전
-        if (Input.GetKey(KeyCode.Q)) Rotate(0, keyboardRotateSpeed);
-        if (Input.GetKey(KeyCode.E)) Rotate(0, -keyboardRotateSpeed);
-        if (Input.GetKey(KeyCode.C)) Rotate(keyboardRotateSpeed, 0);
-        if (Input.GetKey(KeyCode.V)) Rotate(-keyboardRotateSpeed, 0);
+        if (Input.GetKey(KeyCode.Q)) Rotate(0, keyboardRotateSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E)) Rotate(0, -keyboardRotateSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.C)) Rotate(keyboardRotateSpeed * Time.deltaTime, 0);
+        if (Input.GetKey(KeyCode.V)) Rotate(-keyboardRotateSpeed * Time.deltaTime, 0);
 
         // 스크롤: 확대/축소
         if (Input.mouseScrollDelta.y != 0)
@@ -51,32 +51,33 @@ public class CameraManager : MonoBehaviour
         // 가운데 버튼: 카메라 이동
         if (Input.GetMouseButtonDown(2) && !Input.GetMouseButton(0))
         {
-            prevMousePosition = currMousePosition = Input.mousePosition;
+            prevMousePosition = currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         }
         if (Input.GetMouseButton(2) && !Input.GetMouseButton(0))
         {
             prevMousePosition = currMousePosition;
-            currMousePosition = Input.mousePosition;
+            currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
             Move(deltaMousePosition.x, deltaMousePosition.y);
         }
 
         // W/A/S/D: 카메라 이동
-        if (Input.GetKey(KeyCode.W)) Move(0, -keyboardMoveSpeed);
-        if (Input.GetKey(KeyCode.S)) Move(0, keyboardMoveSpeed);
-        if (Input.GetKey(KeyCode.A)) Move(keyboardMoveSpeed, 0);
-        if (Input.GetKey(KeyCode.D)) Move(-keyboardMoveSpeed, 0);
+        if (Input.GetKey(KeyCode.W)) Move(0, -keyboardMoveSpeed * Screen.width * Time.deltaTime);
+        if (Input.GetKey(KeyCode.S)) Move(0, keyboardMoveSpeed * Screen.width * Time.deltaTime);
+        if (Input.GetKey(KeyCode.A)) Move(keyboardMoveSpeed * Screen.width * Time.deltaTime, 0);
+        if (Input.GetKey(KeyCode.D)) Move(-keyboardMoveSpeed * Screen.width * Time.deltaTime, 0);
     }
 
+    // x, y: degree 단위
     private void Rotate(float x, float y)
     {
         Vector3 vector = transform.rotation.eulerAngles;
-        vector.x = Mathf.Clamp(vector.x + x * Time.deltaTime, 0, 90);
-        vector.y = vector.y + y * Time.deltaTime;
+        vector.x = Mathf.Clamp(vector.x + x, 0, 90);
+        vector.y = vector.y + y;
         transform.rotation = Quaternion.Euler(vector);
     }
 
-    // 마우스가 이동한 거리가 픽셀 단위로 (x, y)임
+    // x, y: 픽셀 단위
     private void Move(float x, float y)
     {
         Vector3 cameraDirection = transform.position - myCamera.transform.position;

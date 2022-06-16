@@ -9521,9 +9521,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178131fd14819c746a513b20be245f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseRotateSpeed: 100
-  keyboardRotateSpeed: 100
-  keyboardMoveSpeed: 1.4
+  mouseRotateSpeed: 360
+  keyboardRotateSpeed: 180
+  keyboardMoveSpeed: 0.5
 --- !u!4 &940325806 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3365131527352133026, guid: dfa506e9f3e746e4fae0286c1b32128f, type: 3}
