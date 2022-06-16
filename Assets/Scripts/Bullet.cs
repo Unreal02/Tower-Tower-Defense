@@ -17,33 +17,39 @@ public class Bullet : MonoBehaviour
     private Enemy target; // 목표
     private Vector3 direction; // 날아가는 방향
 
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        life -= Time.deltaTime;
+        if (life < 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // 투사체 이동
         switch (bulletType)
         {
             case BulletType.normal:
                 if (targeting)
                 {
-                    direction = (target.transform.position - transform.position).normalized;
+                    direction = (target.transform.position - rb.position).normalized;
                 }
-                transform.Translate(direction * speed * Time.deltaTime);
+                rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
                 break;
             case BulletType.spread:
                 transform.localScale += speed * Time.deltaTime * new Vector3(1, 0, 1);
                 break;
-        }
-
-        life -= Time.deltaTime;
-        if (life < 0)
-        {
-            Destroy(gameObject);
         }
     }
 

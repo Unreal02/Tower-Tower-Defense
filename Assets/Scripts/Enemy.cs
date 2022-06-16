@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private PlayerInfo playerInfo;
     private LineRenderer pathManager;
     private EnemyManager enemyManager;
+    private Rigidbody rb;
     private Vector3[] path;
     private int currentNode = 0;
     private int nextNode = 1;
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour
     {
         playerInfo = FindObjectOfType<PlayerInfo>();
         enemyManager = FindObjectOfType<EnemyManager>();
+        rb = GetComponent<Rigidbody>();
         enemyManager.AddEnemy(this);
         pathManager = FindObjectOfType<LineRenderer>();
         path = new Vector3[pathManager.positionCount];
@@ -28,8 +30,13 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
         // 경로 따라가기
-        Vector3 position = transform.position;
+        Vector3 position = rb.position;
         float distance = (path[nextNode] - position).magnitude;
         float move = Time.deltaTime * speed;
         if (move >= distance)
@@ -46,7 +53,7 @@ public class Enemy : MonoBehaviour
         }
         Vector3 direction = (path[nextNode] - path[currentNode]).normalized;
         position += direction * move;
-        transform.Translate(position - transform.position);
+        rb.MovePosition(position);
     }
 
     void OnDestroy()

@@ -51,12 +51,12 @@ public class CameraManager : MonoBehaviour
         // 가운데 버튼: 카메라 이동
         if (Input.GetMouseButtonDown(2) && !Input.GetMouseButton(0))
         {
-            prevMousePosition = currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            prevMousePosition = currMousePosition = Input.mousePosition;
         }
         if (Input.GetMouseButton(2) && !Input.GetMouseButton(0))
         {
             prevMousePosition = currMousePosition;
-            currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            currMousePosition = Input.mousePosition;
             Vector3 deltaMousePosition = currMousePosition - prevMousePosition;
             Move(deltaMousePosition.x, deltaMousePosition.y);
         }

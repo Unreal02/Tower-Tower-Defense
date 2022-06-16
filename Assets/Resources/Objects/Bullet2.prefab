@@ -76,7 +76,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!1001 &3066382794829338890
 PrefabInstance:
   m_ObjectHideFlags: 0
