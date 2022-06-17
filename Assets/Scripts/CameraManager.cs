@@ -15,10 +15,6 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         myCamera = Camera.main;
-        MapManager mapManager = FindObjectOfType<MapManager>();
-        Vector3 size = mapManager.GetSize();
-        Vector3 position = new Vector3((size.x - 1) / 2, (size.y - 1) / 2, (size.z - 1) / 2);
-        transform.position = position;
     }
 
     void Update()
