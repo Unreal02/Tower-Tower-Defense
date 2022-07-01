@@ -11,6 +11,7 @@ public class Tower : MonoBehaviour
 {
     [Header("타워 정보")]
     public int idx; // 타워 인덱스 (종류를 나타냄)
+    public string towerName; // 타워 이름
     public int[] cost; // 가격
     public float[] radius; // 공격 반경
     public float[] delay; // 공격 딜레이 시간

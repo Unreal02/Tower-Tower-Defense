@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idx: 1
+  towerName: Tower 1
   cost: 64000000320000006400000096000000c8000000
   radius:
   - 3
@@ -148,6 +149,7 @@ MonoBehaviour:
   - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
   - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
   - {fileID: 4162652371874943503, guid: 5f267a836d121bb499b84751dc76eb09, type: 3}
+  bulletType: 0
   damage: 0100000001000000010000000100000001000000
   speed:
   - 50

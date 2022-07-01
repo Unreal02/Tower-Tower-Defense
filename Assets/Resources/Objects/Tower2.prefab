@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idx: 2
+  towerName: Tower 2
   cost: 96000000320000006400000096000000c8000000
   radius:
   - 1.5
