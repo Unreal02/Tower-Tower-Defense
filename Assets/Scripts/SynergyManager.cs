@@ -3,28 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class TowerBonus
+{
+    public int radiusBonus;
+    public int delayBonus;
+    public int damageBonus;
+    public int speedBonus;
+}
+
 public class SynergyManager : MonoBehaviour
 {
     [Serializable]
-    public class Bonus
-    {
-        public float radiusBonus;
-        public float delayBonus;
-        public int damageBonus;
-        public float speedBonus;
-    }
-
-    [Serializable]
     public class Synergy
     {
-        public Synergy(Bonus b)
+        public Synergy(TowerBonus b)
         {
             idxCountPair = new Dictionary<int, int>();
             bonus = b;
         }
 
         public Dictionary<int, int> idxCountPair;
-        public Bonus bonus;
+        public TowerBonus bonus;
     }
 
     public Dictionary<int, Synergy> synergyInfo;
@@ -43,11 +43,11 @@ public class SynergyManager : MonoBehaviour
             if (int.TryParse(list[0], out synergyIdx))
             {
                 currSynergyIdx = synergyIdx;
-                Bonus bonus = new Bonus();
-                bonus.radiusBonus = float.Parse(list[1]);
-                bonus.delayBonus = float.Parse(list[2]);
+                TowerBonus bonus = new TowerBonus();
+                bonus.radiusBonus = int.Parse(list[1]);
+                bonus.delayBonus = int.Parse(list[2]);
                 bonus.damageBonus = int.Parse(list[3]);
-                bonus.speedBonus = float.Parse(list[4]);
+                bonus.speedBonus = int.Parse(list[4]);
                 synergyInfo.Add(currSynergyIdx, new Synergy(bonus));
             }
             int towerIdx = int.Parse(list[5]);

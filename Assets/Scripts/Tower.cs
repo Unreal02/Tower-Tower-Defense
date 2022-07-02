@@ -25,11 +25,11 @@ public class Tower : MonoBehaviour
     public float[] life; // 투사체 지속 시간
     public int[] bulletHp; // 투사체 관통력
 
-    // 보너스는 (원래 값 + 보너스 값)으로 적용됨
-    private float radiusBonus;
-    private float delayBonus;
-    private int damageBonus;
-    private float speedBonus;
+    // 보너스 (중첩된 보너스는 합연산으로 적용)
+    private int radiusBonus; // 퍼센트 증가량
+    private int delayBonus; // 퍼센트 증가량
+    private int damageBonus; // 수치 증가량
+    private int speedBonus; // 퍼센트 증가량
 
     private Dictionary<int, int> stackedTower = new Dictionary<int, int>(); // 쌓인 타워의 목록 (맨 아래 타워에만 존재함). key: idx, value: 개수
     private HashSet<int> activatedSynergies = new HashSet<int>(); // 현재 활성화된 시너지
@@ -93,9 +93,9 @@ public class Tower : MonoBehaviour
 
     public int GetCost() { return cost[level]; }
     public int GetNextCost() { return cost[level + 1]; }
-    public float GetRadius() { return radius[level] + radiusBonus; }
-    public float GetDelay() { return delay[level] + delayBonus; }
-    public float GetDamage() { return damage[level] + damageBonus; }
+    public float GetRadius() { return radius[level] * (1 + radiusBonus / 100f); }
+    public float GetDelay() { return delay[level] * (1 + delayBonus / 100f); ; }
+    public float GetDamage() { return damage[level] * (1 + damageBonus / 100f); ; }
     public int GetLevel() { return level; }
     public Dictionary<int, int> GetStackedTower()
     {
@@ -108,7 +108,7 @@ public class Tower : MonoBehaviour
 
     public void UpdateRadiusSphere()
     {
-        float scale = 2 * (radius[level] + radiusBonus);
+        float scale = 2 * GetRadius();
         switch (bulletType)
         {
             case BulletType.normal:
@@ -131,7 +131,7 @@ public class Tower : MonoBehaviour
             {
                 float distance = (e.transform.position - transform.position).magnitude;
                 float key = func(e);
-                if (distance <= radius[level] + radiusBonus && key > targetKey)
+                if (distance <= GetRadius() && key > targetKey)
                 {
                     target = e;
                     targetKey = key;
