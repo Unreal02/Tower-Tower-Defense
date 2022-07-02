@@ -11822,15 +11822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e2271ffb259a94b953e3d6f9a9f8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  synergyData:
-  - idxCountPairs:
-    - idx: 1
-      count: 3
-    bonus:
-      radiusBonus: 1
-      delayBonus: 0
-      damageBonus: 0
-      speedBonus: 0
+  synergyInfoFileName: SynergyInfo
 --- !u!4 &1139768117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3365131527352133026, guid: b31fbfc92852e9b40b4f178f5295b06b, type: 3}

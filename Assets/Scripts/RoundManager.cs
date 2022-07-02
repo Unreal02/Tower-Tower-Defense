@@ -16,12 +16,13 @@ public class RoundManager : MonoBehaviour
             enemy = e;
             enemyObject = Resources.Load<GameObject>("Objects/" + enemy);
         }
+
         public float time;
         public string enemy;
         public GameObject enemyObject;
     }
 
-    private List<List<Spawn>> roundInfo = new List<List<Spawn>>();
+    private List<List<Spawn>> roundInfo;
     public string roundInfoFileName;
 
     private int next = 0;
@@ -32,6 +33,7 @@ public class RoundManager : MonoBehaviour
 
     void Start()
     {
+        roundInfo = new List<List<Spawn>>();
         text = GameObject.Find("Next Round Button").GetComponentInChildren<Text>();
 
         // CSV 읽기

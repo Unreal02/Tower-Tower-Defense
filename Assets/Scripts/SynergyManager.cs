@@ -3,19 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class SynergyManager : MonoBehaviour
 {
-    [Serializable]
-    public class IdxCountPair
-    {
-        public int idx;
-        public int count;
-    }
-
     [Serializable]
     public class Bonus
     {
@@ -28,16 +17,43 @@ public class SynergyManager : MonoBehaviour
     [Serializable]
     public class Synergy
     {
-        public IdxCountPair[] idxCountPairs;
+        public Synergy(Bonus b)
+        {
+            idxCountPair = new Dictionary<int, int>();
+            bonus = b;
+        }
+
+        public Dictionary<int, int> idxCountPair;
         public Bonus bonus;
     }
 
-    public Synergy[] synergyData;
+    public Dictionary<int, Synergy> synergyInfo;
+    public string synergyInfoFileName;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        synergyInfo = new Dictionary<int, Synergy>();
+        List<List<string>> csv = CSVReader.Read(synergyInfoFileName);
+        int currSynergyIdx = 0;
+        foreach (List<string> list in csv.GetRange(2, csv.Count - 2))
+        {
+            if (list.Count != 7) continue;
+            int synergyIdx;
+            if (int.TryParse(list[0], out synergyIdx))
+            {
+                currSynergyIdx = synergyIdx;
+                Bonus bonus = new Bonus();
+                bonus.radiusBonus = float.Parse(list[1]);
+                bonus.delayBonus = float.Parse(list[2]);
+                bonus.damageBonus = int.Parse(list[3]);
+                bonus.speedBonus = float.Parse(list[4]);
+                synergyInfo.Add(currSynergyIdx, new Synergy(bonus));
+            }
+            int towerIdx = int.Parse(list[5]);
+            int towerCount = int.Parse(list[6]);
+            synergyInfo[currSynergyIdx].idxCountPair.Add(towerIdx, towerCount);
+        }
     }
 
     // Update is called once per frame
@@ -46,26 +62,3 @@ public class SynergyManager : MonoBehaviour
 
     }
 }
-
-#if UNITY_EDITOR
-[CustomPropertyDrawer(typeof(SynergyManager.IdxCountPair))]
-public class IdxCountPairDrawer : PropertyDrawer
-{
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        SerializedProperty idx = property.FindPropertyRelative("idx");
-        SerializedProperty count = property.FindPropertyRelative("count");
-        Rect newPosition = EditorGUI.PrefixLabel(position, label);
-        float width = newPosition.width;
-        newPosition.width = width * 0.5f - 2f;
-        newPosition.height -= 2f;
-
-        EditorGUI.BeginProperty(newPosition, label, idx);
-        EditorGUI.PropertyField(newPosition, idx, new GUIContent());
-        newPosition.x += width * 0.5f;
-        newPosition.width = width * 0.5f;
-        EditorGUI.PropertyField(newPosition, count, new GUIContent());
-        EditorGUI.EndProperty();
-    }
-}
-#endif

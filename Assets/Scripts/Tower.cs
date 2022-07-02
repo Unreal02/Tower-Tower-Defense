@@ -175,19 +175,19 @@ public class Tower : MonoBehaviour
         if (lowerTower != null) lowerTower.UpdateSynergy();
         var dict = GetStackedTower();
         activatedSynergies.Clear();
-        for (int i = 0; i < synergyManager.synergyData.Length; i++)
+        foreach (var synergyInfoPair in synergyManager.synergyInfo)
         {
-            var synergy = synergyManager.synergyData[i];
+            var synergy = synergyInfoPair.Value;
             bool check1 = true; // 해당 시너지를 위한 타워를 모두 쌓았는가?
             bool check2 = false; // 타워 종류가 시너지를 구성하는가?
-            foreach (var idxCountPair in synergy.idxCountPairs)
+            foreach (var idxCountPair in synergy.idxCountPair)
             {
-                int towerIdx = idxCountPair.idx;
-                int towerCount = idxCountPair.count;
+                int towerIdx = idxCountPair.Key;
+                int towerCount = idxCountPair.Value;
                 if (!dict.ContainsKey(towerIdx) || dict[towerIdx] < towerCount) check1 = false;
                 if (towerIdx == idx) check2 = true;
             }
-            if (check1 && check2) activatedSynergies.Add(i);
+            if (check1 && check2) activatedSynergies.Add(synergyInfoPair.Key);
         }
 
         // 스탯 보너스 처리
@@ -198,10 +198,10 @@ public class Tower : MonoBehaviour
 
         foreach (int synergyIdx in activatedSynergies)
         {
-            radiusBonus += synergyManager.synergyData[synergyIdx].bonus.radiusBonus;
-            delayBonus += synergyManager.synergyData[synergyIdx].bonus.delayBonus;
-            damageBonus += synergyManager.synergyData[synergyIdx].bonus.damageBonus;
-            speedBonus += synergyManager.synergyData[synergyIdx].bonus.speedBonus;
+            radiusBonus += synergyManager.synergyInfo[synergyIdx].bonus.radiusBonus;
+            delayBonus += synergyManager.synergyInfo[synergyIdx].bonus.delayBonus;
+            damageBonus += synergyManager.synergyInfo[synergyIdx].bonus.damageBonus;
+            speedBonus += synergyManager.synergyInfo[synergyIdx].bonus.speedBonus;
         }
 
         UpdateRadiusSphere();
