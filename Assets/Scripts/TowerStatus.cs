@@ -6,18 +6,20 @@ using UnityEngine.UI;
 public class TowerStatus : MonoBehaviour
 {
     private Tower selectedTower;
-    private GameObject child;
+    private GameObject statusUI;
     private PlayerInfo playerInfo;
-    public Text text;
+    private GameObject synergyStatus;
+    public Text statusText;
     public Text upgradeText;
 
     // Start is called before the first frame update
     void Start()
     {
-        child = transform.GetChild(0).gameObject;
-        text = transform.GetChild(0).GetComponentInChildren<Text>();
-        child.SetActive(false);
-        upgradeText = child.transform.GetChild(1).GetComponentInChildren<Text>();
+        statusUI = transform.GetChild(0).gameObject;
+        synergyStatus = transform.GetChild(1).gameObject;
+        statusText = transform.GetChild(0).GetComponentInChildren<Text>();
+        SetTowerStatusUI(false);
+        upgradeText = statusUI.transform.GetChild(1).GetComponentInChildren<Text>();
         playerInfo = FindObjectOfType<PlayerInfo>();
     }
 
@@ -38,12 +40,13 @@ public class TowerStatus : MonoBehaviour
 
     public void SetTowerStatusUI(bool b)
     {
-        child.SetActive(b);
+        statusUI.SetActive(b);
+        synergyStatus.SetActive(b);
     }
 
     public void UpdateTowerStatus()
     {
-        text.text = string.Format("공격력 {0}\n사정거리 {1}\n공격 시간 {2}", selectedTower.GetDamage(), selectedTower.GetRadius(), selectedTower.GetDelay());
+        statusText.text = string.Format("공격력 {0}\n사정거리 {1}\n공격 시간 {2}", selectedTower.GetDamage(), selectedTower.GetRadius(), selectedTower.GetDelay());
         int level = selectedTower.GetLevel();
         if (level < 4)
         {
