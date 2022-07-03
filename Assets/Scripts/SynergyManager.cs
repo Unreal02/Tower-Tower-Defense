@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class TowerBonus
-{
-    public int radiusBonus;
-    public int delayBonus;
-    public int damageBonus;
-    public int speedBonus;
-}
-
 public class SynergyManager : MonoBehaviour
 {
+    [Serializable]
+    public class TowerBonus
+    {
+        public int radiusBonus;
+        public int delayBonus;
+        public int damageBonus;
+        public int speedBonus;
+    }
+
     [Serializable]
     public class Synergy
     {
