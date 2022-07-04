@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class SynergyStatusSet : MonoBehaviour
 {
     private SynergyManager synergyManager;
-    private Dictionary<int, SynergyManager.Synergy> synergyInfo;
+    private SortedDictionary<int, SynergyManager.Synergy> synergyInfo;
+    private Dictionary<int, GameObject> synergyStatusDict;
     public GameObject synergyStatus;
 
     // Start is called before the first frame update
@@ -19,13 +20,15 @@ public class SynergyStatusSet : MonoBehaviour
     {
         synergyManager = FindObjectOfType<SynergyManager>();
         synergyInfo = synergyManager.synergyInfo;
+        synergyStatusDict = new Dictionary<int, GameObject>();
 
         foreach (var synergyInfoPair in synergyInfo)
         {
             int idx = synergyInfoPair.Key;
             SynergyManager.Synergy synergy = synergyInfoPair.Value;
             GameObject o = Instantiate(synergyStatus, transform.position, transform.rotation, transform);
-            o.GetComponent<SynergyStatus>().idxCountPair = synergy.idxCountPair;
+            o.GetComponent<SynergyStatus>().Init(idx, synergy);
+            synergyStatusDict.Add(idx, o);
         }
     }
 
@@ -35,11 +38,22 @@ public class SynergyStatusSet : MonoBehaviour
 
     }
 
-    public void UpdateSynergyStatusSet(Dictionary<int, int> stackedTower)
+    public void UpdateSynergyStatusSet(int selectedTowerIdx, Dictionary<int, int> stackedTower)
     {
-        foreach (SynergyStatus synergyStatus in GetComponentsInChildren<SynergyStatus>())
+
+        foreach (var keyValuePair in synergyStatusDict)
         {
-            synergyStatus.UpdateSynergyStatus(stackedTower);
+            int synergyIdx = keyValuePair.Key;
+            GameObject gameObject = keyValuePair.Value;
+            if (synergyInfo[synergyIdx].idxCountPairs.ContainsKey(selectedTowerIdx))
+            {
+                gameObject.SetActive(true);
+                gameObject.GetComponent<SynergyStatus>().UpdateSynergyStatus(stackedTower);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

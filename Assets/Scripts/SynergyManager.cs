@@ -19,21 +19,21 @@ public class SynergyManager : MonoBehaviour
     {
         public Synergy(TowerBonus b)
         {
-            idxCountPair = new Dictionary<int, int>();
+            idxCountPairs = new SortedDictionary<int, int>();
             bonus = b;
         }
 
-        public Dictionary<int, int> idxCountPair;
+        public SortedDictionary<int, int> idxCountPairs;
         public TowerBonus bonus;
     }
 
-    public Dictionary<int, Synergy> synergyInfo;
+    public SortedDictionary<int, Synergy> synergyInfo;
     public string synergyInfoFileName;
 
     // Start is called before the first frame update
     void Start()
     {
-        synergyInfo = new Dictionary<int, Synergy>();
+        synergyInfo = new SortedDictionary<int, Synergy>();
         List<List<string>> csv = CSVReader.Read(synergyInfoFileName);
         int currSynergyIdx = 0;
         foreach (List<string> list in csv.GetRange(2, csv.Count - 2))
@@ -52,7 +52,7 @@ public class SynergyManager : MonoBehaviour
             }
             int towerIdx = int.Parse(list[5]);
             int towerCount = int.Parse(list[6]);
-            synergyInfo[currSynergyIdx].idxCountPair.Add(towerIdx, towerCount);
+            synergyInfo[currSynergyIdx].idxCountPairs.Add(towerIdx, towerCount);
         }
 
         SynergyStatusSet synergyStatusSet = FindObjectOfType<SynergyStatusSet>();

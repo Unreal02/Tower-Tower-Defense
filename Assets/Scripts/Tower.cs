@@ -180,7 +180,7 @@ public class Tower : MonoBehaviour
             SynergyManager.Synergy synergy = synergyInfoPair.Value;
             bool check1 = true; // 해당 시너지를 위한 타워를 모두 쌓았는가?
             bool check2 = false; // 타워 종류가 시너지를 구성하는가?
-            foreach (var idxCountPair in synergy.idxCountPair)
+            foreach (var idxCountPair in synergy.idxCountPairs)
             {
                 int towerIdx = idxCountPair.Key;
                 int towerCount = idxCountPair.Value;

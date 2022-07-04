@@ -57,7 +57,7 @@ public class TowerStatus : MonoBehaviour
             upgradeText.text = string.Format("레벨 {0}\n최대 레벨", level);
         }
 
-        synergyStatusSet.GetComponent<SynergyStatusSet>().UpdateSynergyStatusSet(selectedTower.GetStackedTower());
+        synergyStatusSet.GetComponent<SynergyStatusSet>().UpdateSynergyStatusSet(selectedTower.idx, selectedTower.GetStackedTower());
     }
 
     public void OnClickTowerUpgradeButton()
