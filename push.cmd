@@ -1,2 +1,2 @@
-git push origin %1
-git push gitlab %1
+git push origin master
+git push gitlab master
