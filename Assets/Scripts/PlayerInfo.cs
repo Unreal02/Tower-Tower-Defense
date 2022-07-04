@@ -25,7 +25,7 @@ public class PlayerInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int round = roundManager.GetCurrentRound() + 1;
+        int round = roundManager.GetCurrentRound();
         text.text = string.Format("라운드 {0}\n자금 {1}\n체력 {2}", round, money, life);
     }
 
