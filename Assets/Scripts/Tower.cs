@@ -173,14 +173,14 @@ public class Tower : MonoBehaviour
     public void UpdateSynergy()
     {
         if (lowerTower != null) lowerTower.UpdateSynergy();
-        var dict = GetStackedTower();
+        Dictionary<int, int> dict = GetStackedTower();
         activatedSynergies.Clear();
         foreach (var synergyInfoPair in synergyManager.synergyInfo)
         {
-            var synergy = synergyInfoPair.Value;
+            SynergyManager.Synergy synergy = synergyInfoPair.Value;
             bool check1 = true; // 해당 시너지를 위한 타워를 모두 쌓았는가?
             bool check2 = false; // 타워 종류가 시너지를 구성하는가?
-            foreach (var idxCountPair in synergy.idxCountPair)
+            foreach (var idxCountPair in synergy.idxCountPairs)
             {
                 int towerIdx = idxCountPair.Key;
                 int towerCount = idxCountPair.Value;
