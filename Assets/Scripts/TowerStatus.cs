@@ -8,7 +8,7 @@ public class TowerStatus : MonoBehaviour
     private Tower selectedTower;
     private GameObject statusUI;
     private PlayerInfo playerInfo;
-    private GameObject synergyStatus;
+    private GameObject synergyStatusSet;
     public Text statusText;
     public Text upgradeText;
 
@@ -16,7 +16,7 @@ public class TowerStatus : MonoBehaviour
     void Start()
     {
         statusUI = transform.GetChild(0).gameObject;
-        synergyStatus = transform.GetChild(1).gameObject;
+        synergyStatusSet = transform.GetChild(1).gameObject;
         statusText = transform.GetChild(0).GetComponentInChildren<Text>();
         SetTowerStatusUI(false);
         upgradeText = statusUI.transform.GetChild(1).GetComponentInChildren<Text>();
@@ -41,7 +41,7 @@ public class TowerStatus : MonoBehaviour
     public void SetTowerStatusUI(bool b)
     {
         statusUI.SetActive(b);
-        synergyStatus.SetActive(b);
+        synergyStatusSet.SetActive(b);
     }
 
     public void UpdateTowerStatus()
@@ -56,6 +56,8 @@ public class TowerStatus : MonoBehaviour
         {
             upgradeText.text = string.Format("레벨 {0}\n최대 레벨", level);
         }
+
+        synergyStatusSet.GetComponent<SynergyStatusSet>().UpdateSynergyStatusSet(selectedTower.GetStackedTower());
     }
 
     public void OnClickTowerUpgradeButton()

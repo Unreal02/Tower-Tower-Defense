@@ -54,6 +54,9 @@ public class SynergyManager : MonoBehaviour
             int towerCount = int.Parse(list[6]);
             synergyInfo[currSynergyIdx].idxCountPair.Add(towerIdx, towerCount);
         }
+
+        SynergyStatusSet synergyStatusSet = FindObjectOfType<SynergyStatusSet>();
+        synergyStatusSet.Init();
     }
 
     // Update is called once per frame
