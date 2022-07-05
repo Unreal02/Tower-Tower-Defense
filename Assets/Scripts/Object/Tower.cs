@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,18 +13,18 @@ public class Tower : MonoBehaviour
     [Header("타워 정보")]
     public int idx; // 타워 인덱스 (종류를 나타냄)
     public string towerName; // 타워 이름
-    public int[] cost; // 가격
-    public float[] radius; // 공격 반경
-    public float[] delay; // 공격 딜레이 시간
+    public List<int> cost; // 가격
+    public List<float> radius; // 공격 반경
+    public List<float> delay; // 공격 딜레이 시간
 
     [Header("투사체 정보")]
-    public GameObject[] bullet; // 투사체
+    public List<GameObject> bullet; // 투사체
     public BulletType bulletType;
-    public int[] damage; // 공격력
-    public float[] speed; // 투사체 발사 속도
-    public bool[] targeting; // 투사체가 목표를 따라가는지
-    public float[] life; // 투사체 지속 시간
-    public int[] bulletHp; // 투사체 관통력
+    public List<int> damage; // 공격력
+    public List<float> speed; // 투사체 발사 속도
+    public List<bool> targeting; // 투사체가 목표를 따라가는지
+    public List<float> life; // 투사체 지속 시간
+    public List<int> bulletHp; // 투사체 관통력
 
     // 보너스 (중첩된 보너스는 합연산으로 적용)
     private int radiusBonus; // 퍼센트 증가량
@@ -34,14 +35,15 @@ public class Tower : MonoBehaviour
     private Dictionary<int, int> stackedTower = new Dictionary<int, int>(); // 쌓인 타워의 목록 (맨 아래 타워에만 존재함). key: idx, value: 개수
     private HashSet<int> activatedSynergies = new HashSet<int>(); // 현재 활성화된 시너지
 
-    private Component radiusSphere; // 반경을 나타내는 투명한 구
+    private GameObject radiusSphere; // 반경을 나타내는 투명한 구
     private MouseCursor mouseCursor; // 마우스 커서 오브젝트
     private EnemyManager enemyManager;
     private SynergyManager synergyManager;
     private bool select; // 오브젝트가 선택되었는지 나타냄
     private bool attackable; // 공격 딜레이가 지나서 공격 가능한가
-    private int level; // 현재 타워 레벨
+    private int level; // 현재 타워 레벨 (0 ~ 4)
 
+    private GameObject towerStack;
     private Tower upperTower;
     private Tower lowerTower;
 
@@ -50,9 +52,10 @@ public class Tower : MonoBehaviour
         mouseCursor = FindObjectOfType<MouseCursor>();
         enemyManager = FindObjectOfType<EnemyManager>();
         synergyManager = FindObjectOfType<SynergyManager>();
-        radiusSphere = transform.GetChild(1);
+        radiusSphere = transform.GetChild(1).gameObject;
         attackable = true;
         level = 0;
+        towerStack = transform.GetChild(2).gameObject;
     }
 
     // Start is called before the first frame update
@@ -88,11 +91,17 @@ public class Tower : MonoBehaviour
     public void SetSelect(bool b)
     {
         select = b;
-        radiusSphere.gameObject.SetActive(b);
+        radiusSphere.SetActive(b);
+    }
+
+    public void SetTowerStack(bool b)
+    {
+        towerStack.SetActive(b);
     }
 
     public int GetCost() { return cost[level]; }
     public int GetNextCost() { return cost[level + 1]; }
+    public int GetSellCost() { return cost.GetRange(0, level + 1).Sum() * 4 / 5; }
     public float GetRadius() { return radius[level] * (1 + radiusBonus / 100f); }
     public float GetDelay() { return delay[level] * (1 + delayBonus / 100f); ; }
     public float GetDamage() { return damage[level] * (1 + damageBonus / 100f); ; }
@@ -103,6 +112,7 @@ public class Tower : MonoBehaviour
         else return lowerTower.GetStackedTower();
     }
     public void SetUpperTower(Tower t) { upperTower = t; }
+    public Tower GetUpperTower() { return upperTower; }
 
     public void AddLevel() { level++; UpdateRadiusSphere(); }
 
@@ -160,6 +170,16 @@ public class Tower : MonoBehaviour
         AddTowerToStackedTower(idx);
     }
 
+    public void OnSell()
+    {
+        // 아래 타워의 Tower Stack 비활성화
+        if (lowerTower != null)
+        {
+            lowerTower.SetTowerStack(false);
+            lowerTower.RemoveTowerToStackedTower(idx);
+        }
+    }
+
     public void AddTowerToStackedTower(int idx)
     {
         if (lowerTower != null) lowerTower.AddTowerToStackedTower(idx);
@@ -167,6 +187,16 @@ public class Tower : MonoBehaviour
         {
             if (stackedTower.ContainsKey(idx)) stackedTower[idx] += 1;
             else stackedTower.Add(idx, 1);
+        }
+    }
+
+    public void RemoveTowerToStackedTower(int idx)
+    {
+        if (lowerTower != null) lowerTower.RemoveTowerToStackedTower(idx);
+        else
+        {
+            stackedTower[idx] -= 1;
+            if (stackedTower[idx] == 0) stackedTower.Remove(idx);
         }
     }
 

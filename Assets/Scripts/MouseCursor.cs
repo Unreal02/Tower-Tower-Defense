@@ -15,7 +15,6 @@ public class MouseCursor : MonoBehaviour
     private CameraManager cameraManager;
     private Camera cam;
     private GameObject currentTower = null;
-    private GameObject currentTowerStack = null;
     private Vector3 size;
     private TowerStatus towerStatus;
 
@@ -53,7 +52,6 @@ public class MouseCursor : MonoBehaviour
             {
                 if (cursorState == CursorState.installTower) Destroy(currentTower);
                 if (cursorState == CursorState.selectTower) currentTower.GetComponent<Tower>().SetSelect(false);
-                currentTower = null;
                 SetCursorState(CursorState.idle);
             }
         }
@@ -77,22 +75,24 @@ public class MouseCursor : MonoBehaviour
                 if (0 <= x && x < size.x && 0 <= z && z < size.z)
                 {
                     currentTower.SetActive(true);
-                    currentTowerStack.SetActive(hit.transform.GetComponent<Tower>());
+                    currentTower.GetComponent<Tower>().SetTowerStack(hit.transform.GetComponent<Tower>());
                     currentTower.transform.position = hit.transform.position + Vector3.up;
                 }
                 else
                 {
                     currentTower.SetActive(false);
-                    currentTowerStack.SetActive(false);
+                    currentTower.GetComponent<Tower>().SetTowerStack(false);
                 }
             }
             else
             {
                 currentTower.SetActive(false);
-                currentTowerStack.SetActive(false);
+                currentTower.GetComponent<Tower>().SetTowerStack(false);
             }
         }
     }
+
+    public GameObject GetCurrentTower() { return currentTower; }
 
     public void OnClickBlock()
     {
@@ -100,7 +100,6 @@ public class MouseCursor : MonoBehaviour
         else
         {
             if (currentTower) currentTower.GetComponent<Tower>().SetSelect(false);
-            SetCurrentTower(null);
             SetCursorState(CursorState.idle);
         }
     }
@@ -116,18 +115,17 @@ public class MouseCursor : MonoBehaviour
                 if (currentTower == tower)
                 {
                     currentTower.GetComponent<Tower>().SetSelect(false);
-                    SetCurrentTower(null);
                     SetCursorState(CursorState.idle);
                 }
                 else
                 {
                     currentTower.GetComponent<Tower>().SetSelect(false);
-                    SetCurrentTower(tower);
+                    currentTower = tower;
                     currentTower.GetComponent<Tower>().SetSelect(true);
                 }
                 break;
             case CursorState.idle:
-                SetCurrentTower(tower);
+                currentTower = tower;
                 currentTower.GetComponent<Tower>().SetSelect(true);
                 SetCursorState(CursorState.selectTower);
                 break;
@@ -143,8 +141,7 @@ public class MouseCursor : MonoBehaviour
         if (playerInfo.GetMoney() < tower.GetComponent<Tower>().GetCost())
             return;
 
-        SetCurrentTower(Instantiate(tower));
-        currentTowerStack = Instantiate(towerStack, new Vector3(0, -1, 0), Quaternion.identity, currentTower.transform);
+        currentTower = Instantiate(tower);
 
         // Raycast에서 자기 자신을 인식하는 것을 막기 위해 임시로 레이어를 바꿈
         ChangeTowerLayer(LayerMask.NameToLayer("Ignore Raycast"));
@@ -161,10 +158,14 @@ public class MouseCursor : MonoBehaviour
         currentTower.transform.GetChild(1).gameObject.SetActive(false);
         towerComponent.enabled = true;
         ChangeTowerLayer(LayerMask.NameToLayer("Tower"));
-        SetCurrentTower(null);
         SetCursorState(CursorState.idle);
         playerInfo.SubtractMoney(towerComponent.GetCost());
         towerComponent.OnInstallTower();
+    }
+
+    public void OnSellTower() // 타워 판매하는 순간
+    {
+        SetCursorState(CursorState.idle);
     }
 
     public void ChangeTowerLayer(int layer)
@@ -174,14 +175,9 @@ public class MouseCursor : MonoBehaviour
 
     private void SetCursorState(CursorState s)
     {
+        if (s == CursorState.idle) currentTower = null;
         if (s == CursorState.selectTower) towerStatus.SetTowerStatusUI(true);
         else towerStatus.SetTowerStatusUI(false);
         cursorState = s;
-    }
-
-    private void SetCurrentTower(GameObject t)
-    {
-        towerStatus.SetSelectedTower(t == null ? null : t.GetComponent<Tower>());
-        currentTower = t;
     }
 }

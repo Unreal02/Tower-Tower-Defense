@@ -5,22 +5,32 @@ using UnityEngine.UI;
 
 public class TowerStatus : MonoBehaviour
 {
-    private Tower selectedTower;
+    private MouseCursor mouseCursor;
+    private Tower selectedTower
+    {
+        get
+        {
+            return mouseCursor.GetCurrentTower()?.GetComponent<Tower>();
+        }
+    }
     private GameObject statusUI;
     private PlayerInfo playerInfo;
     private GameObject synergyStatusSet;
-    public Text statusText;
-    public Text upgradeText;
+    private Text statusText;
+    private Text upgradeText;
+    private Text sellText;
 
     // Start is called before the first frame update
     void Start()
     {
+        mouseCursor = FindObjectOfType<MouseCursor>();
         statusUI = transform.GetChild(0).gameObject;
+        playerInfo = FindObjectOfType<PlayerInfo>();
         synergyStatusSet = transform.GetChild(1).gameObject;
         statusText = transform.GetChild(0).GetComponentInChildren<Text>();
-        SetTowerStatusUI(false);
         upgradeText = statusUI.transform.GetChild(1).GetComponentInChildren<Text>();
-        playerInfo = FindObjectOfType<PlayerInfo>();
+        sellText = statusUI.transform.GetChild(2).GetComponentInChildren<Text>();
+        SetTowerStatusUI(false);
     }
 
     // Update is called once per frame
@@ -29,19 +39,11 @@ public class TowerStatus : MonoBehaviour
 
     }
 
-    public void SetSelectedTower(Tower t)
-    {
-        selectedTower = t;
-        if (selectedTower)
-        {
-            UpdateTowerStatus();
-        }
-    }
-
     public void SetTowerStatusUI(bool b)
     {
         statusUI.SetActive(b);
         synergyStatusSet.SetActive(b);
+        if (b) UpdateTowerStatus();
     }
 
     public void UpdateTowerStatus()
@@ -57,21 +59,36 @@ public class TowerStatus : MonoBehaviour
             upgradeText.text = string.Format("레벨 {0}\n최대 레벨", level);
         }
 
+        sellText.text = string.Format("매각\n{0}", selectedTower.GetSellCost());
+
         synergyStatusSet.GetComponent<SynergyStatusSet>().UpdateSynergyStatusSet(selectedTower.idx, selectedTower.GetStackedTower());
     }
 
     public void OnClickTowerUpgradeButton()
     {
-        if (selectedTower == null || selectedTower.GetLevel() == 4)
-        {
-            return;
-        }
+        if (selectedTower == null || selectedTower.GetLevel() == 4) return;
 
         if (playerInfo.GetMoney() >= selectedTower.GetNextCost())
         {
             playerInfo.SubtractMoney(selectedTower.GetNextCost());
             selectedTower.AddLevel();
             UpdateTowerStatus();
+        }
+    }
+
+    public void OnClickTowerSellButton()
+    {
+        if (selectedTower == null) return;
+
+        // todo: 쌓인 타워들 함께 매각하기
+        if (selectedTower.GetUpperTower() != null) return;
+
+        if (playerInfo.GetMoney() >= selectedTower.GetSellCost())
+        {
+            playerInfo.AddMoney(selectedTower.GetSellCost());
+            selectedTower.OnSell();
+            Destroy(selectedTower.gameObject);
+            mouseCursor.OnSellTower();
         }
     }
 }
