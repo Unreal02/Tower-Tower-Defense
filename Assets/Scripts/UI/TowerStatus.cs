@@ -10,7 +10,7 @@ public class TowerStatus : MonoBehaviour
     {
         get
         {
-            return mouseCursor.GetCurrentTower()?.GetComponent<Tower>();
+            return mouseCursor.GetSelectedTower()?.GetComponent<Tower>();
         }
     }
     private GameObject statusUI;
