@@ -16,6 +16,7 @@ public class TowerStatus : MonoBehaviour
     private GameObject statusUI;
     private PlayerInfo playerInfo;
     private GameObject synergyStatusSet;
+    private GameObject stackedSell;
     private Text statusText;
     private Text upgradeText;
     private Text sellText;
@@ -27,6 +28,7 @@ public class TowerStatus : MonoBehaviour
         statusUI = transform.GetChild(0).gameObject;
         playerInfo = FindObjectOfType<PlayerInfo>();
         synergyStatusSet = transform.GetChild(1).gameObject;
+        stackedSell = transform.GetChild(2).gameObject;
         statusText = transform.GetChild(0).GetComponentInChildren<Text>();
         upgradeText = statusUI.transform.GetChild(1).GetComponentInChildren<Text>();
         sellText = statusUI.transform.GetChild(2).GetComponentInChildren<Text>();
@@ -80,15 +82,32 @@ public class TowerStatus : MonoBehaviour
     {
         if (selectedTower == null) return;
 
-        // todo: 쌓인 타워들 함께 매각하기
-        if (selectedTower.GetUpperTower() != null) return;
-
-        if (playerInfo.GetMoney() >= selectedTower.GetSellCost())
+        if (selectedTower.GetUpperTower() != null)
         {
-            playerInfo.AddMoney(selectedTower.GetSellCost());
-            selectedTower.OnSell();
-            Destroy(selectedTower.gameObject);
-            mouseCursor.OnSellTower();
+            // 위에 쌓인 타워들이 있는 경우
+            stackedSell.SetActive(true);
         }
+        else
+        {
+            // 위에 쌓인 타워들이 없는 경우
+            Sell(selectedTower);
+        }
+    }
+
+    private void Sell(Tower tower)
+    {
+        playerInfo.AddMoney(tower.GetSellCost());
+        tower.OnSell();
+        Destroy(tower.gameObject);
+        mouseCursor.OnSellTower();
+        stackedSell.SetActive(false);
+    }
+
+    public void StackedSell() { StackedSell(selectedTower); }
+    public void StackedSell(Tower tower)
+    {
+        // 위에 쌓인 타워를 먼저 매각
+        if (tower.GetUpperTower() != null) StackedSell(tower.GetUpperTower());
+        Sell(tower);
     }
 }

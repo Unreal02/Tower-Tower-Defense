@@ -175,9 +175,9 @@ public class Tower : MonoBehaviour
         // 아래 타워의 Tower Stack 비활성화
         if (lowerTower != null)
         {
-            lowerTower.SetTowerStack(false);
             lowerTower.RemoveTowerToStackedTower(idx);
         }
+        UpdateSynergy();
     }
 
     public void AddTowerToStackedTower(int idx)

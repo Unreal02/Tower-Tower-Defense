@@ -121,6 +121,7 @@ public class MouseCursor : MonoBehaviour
                 {
                     selectedTower.GetComponent<Tower>().SetSelect(false);
                     selectedTower = tower;
+                    towerStatus.UpdateTowerStatus();
                     selectedTower.GetComponent<Tower>().SetSelect(true);
                 }
                 break;
