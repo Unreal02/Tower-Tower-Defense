@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BulletType { normal, spread }
-
 public class Bullet : MonoBehaviour
 {
-    public BulletType bulletType;
-
-    private int damage; // 공격력
-    private float speed; // 속력
-    private bool targeting; // 목표를 따라가는지 여부
-    private float life; // 수명
-    private int hp; // 관통력
+    protected int damage; // 공격력
+    protected float speed; // 속력
+    protected bool targeting; // 목표를 따라가는지 여부
+    protected float life; // 수명
+    protected int hp; // 관통력
 
     private Enemy target; // 목표
     private Vector3 direction; // 날아가는 방향
@@ -37,20 +33,17 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 투사체 이동
-        switch (bulletType)
+        Move();
+    }
+
+    // 투사체 이동 (override 가능)
+    protected virtual void Move()
+    {
+        if (targeting)
         {
-            case BulletType.normal:
-                if (targeting)
-                {
-                    direction = (target.transform.position - rb.position).normalized;
-                }
-                rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
-                break;
-            case BulletType.spread:
-                transform.localScale += speed * Time.deltaTime * new Vector3(1, 0, 1);
-                break;
+            direction = (target.transform.position - rb.position).normalized;
         }
+        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
 
     public void SetBulletInfo(int d, float s, bool t, float l, int h)

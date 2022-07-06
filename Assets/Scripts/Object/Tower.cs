@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+public enum RadiusType { normal, spread };
+
 // 타워 오브젝트입니다.
 // mouseCursor에서 타워 설치하기 전에는 비활성화 상태입니다.
 // 타워를 설치하는 순간 활성화됩니다.
@@ -16,10 +18,10 @@ public class Tower : MonoBehaviour
     public List<int> cost; // 가격
     public List<float> radius; // 공격 반경
     public List<float> delay; // 공격 딜레이 시간
+    public RadiusType radiusType;
 
     [Header("투사체 정보")]
     public List<GameObject> bullet; // 투사체
-    public BulletType bulletType;
     public List<int> damage; // 공격력
     public List<float> speed; // 투사체 발사 속도
     public List<bool> targeting; // 투사체가 목표를 따라가는지
@@ -119,12 +121,12 @@ public class Tower : MonoBehaviour
     public void UpdateRadiusSphere()
     {
         float scale = 2 * GetRadius();
-        switch (bulletType)
+        switch (radiusType)
         {
-            case BulletType.normal:
+            case RadiusType.normal:
                 radiusSphere.transform.localScale = scale * new Vector3(1, 1, 1);
                 break;
-            case BulletType.spread:
+            case RadiusType.spread:
                 radiusSphere.transform.localScale = new Vector3(scale, radiusSphere.transform.localScale.y, scale);
                 break;
         }
