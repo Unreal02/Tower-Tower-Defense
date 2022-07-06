@@ -10,10 +10,10 @@ public class Bullet : MonoBehaviour
     protected float life; // 수명
     protected int hp; // 관통력
 
-    private Enemy target; // 목표
-    private Vector3 direction; // 날아가는 방향
+    protected Enemy target; // 목표
+    protected Vector3 direction; // 날아가는 방향
 
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
