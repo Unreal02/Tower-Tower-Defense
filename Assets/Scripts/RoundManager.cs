@@ -8,7 +8,7 @@ public class RoundManager : MonoBehaviour
 {
 
     [Serializable]
-    public struct Spawn
+    public class Spawn
     {
         public Spawn(float t, string e)
         {
@@ -23,7 +23,6 @@ public class RoundManager : MonoBehaviour
     }
 
     private List<List<Spawn>> roundInfo;
-    public string roundInfoFileName;
 
     private int next = 0;
     private int currentRound = 1;
@@ -37,7 +36,7 @@ public class RoundManager : MonoBehaviour
         text = GameObject.Find("Next Round Button").GetComponentInChildren<Text>();
 
         // CSV 읽기
-        List<List<string>> csv = CSVReader.Read(roundInfoFileName);
+        List<List<string>> csv = CSVReader.Read("RoundInfo");
         int currRound = 0;
         roundInfo.Add(new List<Spawn>());
         foreach (List<string> list in csv.GetRange(1, csv.Count - 1))

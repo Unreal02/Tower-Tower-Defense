@@ -12,6 +12,7 @@ public class MouseCursor : MonoBehaviour
 
     private PlayerInfo playerInfo;
     private CursorState cursorState;
+    private TowerManager towerManager;
     private CameraManager cameraManager;
     private Camera cam;
     private GameObject selectedTower = null;
@@ -23,6 +24,7 @@ public class MouseCursor : MonoBehaviour
     void Start()
     {
         playerInfo = FindObjectOfType<PlayerInfo>();
+        towerManager = FindObjectOfType<TowerManager>();
         cameraManager = FindObjectOfType<CameraManager>();
         towerStatus = FindObjectOfType<TowerStatus>();
         cam = Camera.main;
@@ -139,7 +141,7 @@ public class MouseCursor : MonoBehaviour
         if (cursorState == CursorState.selectTower) selectedTower.GetComponent<Tower>().SetSelect(false);
 
         // 돈이 모자라지 않는지 확인
-        if (playerInfo.GetMoney() < tower.GetComponent<Tower>().GetCost())
+        if (playerInfo.GetMoney() < towerManager.towerInfo[tower.GetComponent<Tower>().idx].cost[0])
             return;
 
         selectedTower = Instantiate(tower);
@@ -160,7 +162,7 @@ public class MouseCursor : MonoBehaviour
         towerComponent.enabled = true;
         ChangeTowerLayer(LayerMask.NameToLayer("Tower"));
         SetCursorState(CursorState.idle);
-        playerInfo.SubtractMoney(towerComponent.GetCost());
+        playerInfo.SubtractMoney(towerManager.towerInfo[towerComponent.idx].cost[0]);
         towerComponent.OnInstallTower();
     }
 

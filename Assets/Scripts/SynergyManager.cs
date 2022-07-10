@@ -28,13 +28,12 @@ public class SynergyManager : MonoBehaviour
     }
 
     public SortedDictionary<int, Synergy> synergyInfo;
-    public string synergyInfoFileName;
 
     // Start is called before the first frame update
     void Start()
     {
         synergyInfo = new SortedDictionary<int, Synergy>();
-        List<List<string>> csv = CSVReader.Read(synergyInfoFileName);
+        List<List<string>> csv = CSVReader.Read("SynergyInfo");
         int currSynergyIdx = 0;
         foreach (List<string> list in csv.GetRange(2, csv.Count - 2))
         {

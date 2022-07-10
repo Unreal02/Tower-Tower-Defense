@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class TowerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    private TowerManager towerManager;
     private GameObject towerInfo;
     private Text towerInfoText;
     private MouseCursor mouseCursor;
@@ -16,6 +17,7 @@ public class TowerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // Start is called before the first frame update
     void Start()
     {
+        towerManager = FindObjectOfType<TowerManager>();
         towerInfo = GameObject.Find("Tower Button Set").transform.GetChild(0).gameObject;
         towerInfoText = towerInfo.GetComponentInChildren<Text>();
         mouseCursor = FindObjectOfType<MouseCursor>();
@@ -36,7 +38,7 @@ public class TowerButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerEnter(PointerEventData eventData)
     {
         towerInfo.SetActive(true);
-        towerInfoText.text = string.Format("{0}\n{1}", towerComponent.towerName, towerComponent.GetCost());
+        towerInfoText.text = string.Format("{0}\n{1}", towerManager.towerInfo[towerComponent.idx].towerName, towerManager.towerInfo[towerComponent.idx].cost[0]);
     }
 
     public void OnPointerExit(PointerEventData eventData)

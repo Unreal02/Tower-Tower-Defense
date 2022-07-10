@@ -12,21 +12,8 @@ public enum RadiusType { normal, spread };
 // 타워를 설치하는 순간 활성화됩니다.
 public class Tower : MonoBehaviour
 {
-    [Header("타워 정보")]
     public int idx; // 타워 인덱스 (종류를 나타냄)
-    public string towerName; // 타워 이름
-    public List<int> cost; // 가격
-    public List<float> radius; // 공격 반경
-    public List<float> delay; // 공격 딜레이 시간
-    public RadiusType radiusType;
-
-    [Header("투사체 정보")]
-    public List<GameObject> bullet; // 투사체
-    public List<int> damage; // 공격력
-    public List<float> speed; // 투사체 발사 속도
-    public List<bool> targeting; // 투사체가 목표를 따라가는지
-    public List<float> life; // 투사체 지속 시간
-    public List<int> bulletHp; // 투사체 관통력
+    private TowerManager.TowerData data;
 
     // 보너스 (중첩된 보너스는 합연산으로 적용)
     private int radiusBonus; // 퍼센트 증가량
@@ -39,6 +26,7 @@ public class Tower : MonoBehaviour
 
     private GameObject radiusSphere; // 반경을 나타내는 투명한 구
     private MouseCursor mouseCursor; // 마우스 커서 오브젝트
+    private TowerManager towerManager;
     private EnemyManager enemyManager;
     private SynergyManager synergyManager;
     private bool select; // 오브젝트가 선택되었는지 나타냄
@@ -49,41 +37,20 @@ public class Tower : MonoBehaviour
     private Tower upperTower;
     private Tower lowerTower;
 
-    void Awake()
-    {
-        mouseCursor = FindObjectOfType<MouseCursor>();
-        enemyManager = FindObjectOfType<EnemyManager>();
-        synergyManager = FindObjectOfType<SynergyManager>();
-        radiusSphere = transform.GetChild(1).gameObject;
-        attackable = true;
-        level = 0;
-        towerStack = transform.GetChild(2).gameObject;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        UpdateSynergy(); // Start가 OnInstallTower보다 늦게 불려서 OnInstallTower에서 UpdateSynergy를 호출하면 안 되더라...
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (attackable)
-        {
-            // todo: 타겟 설정 바꾸는 기능
-            Enemy target = GetTarget(e => e.GetLocation()); // 가장 앞에 있는 적
-            // Enemy target = GetTarget(e => -(e.transform.position - transform.position).magnitude); // 가장 가까운 적
-            if (target != null)
-            {
-                Bullet newBullet = Instantiate(bullet[level], transform.position, transform.rotation).GetComponent<Bullet>();
-                newBullet.SetTarget(target);
-                newBullet.SetBulletInfo(damage[level] + damageBonus, speed[level] + speedBonus, targeting[level], life[level], bulletHp[level]);
-                Invoke("SetAttackable", delay[level] + delayBonus);
-                attackable = false;
-            }
-        }
-    }
+    public int GetLevel() { return level; }
+    public string GetTowerName() { return data.towerName; }
+    public RadiusType GetRadiusType() { return data.radiusType; }
+    public int GetCost() { return data.cost[level]; }
+    public int GetNextCost() { return data.cost[level + 1]; }
+    public int GetSellCost() { return data.cost.GetRange(0, level + 1).Sum() * 4 / 5; }
+    public float GetRadius() { return data.radius[level] * (1 + radiusBonus / 100f); }
+    public float GetDelay() { return data.delay[level] * (1 + delayBonus / 100f); }
+    public GameObject GetBullet() { return data.bullet[level]; }
+    public int GetDamage() { return data.damage[level] + damageBonus; }
+    public float GetSpeed() { return data.speed[level] * (1 + speedBonus / 100f); }
+    public bool GetTargeting() { return data.targeting[level]; }
+    public float GetLife() { return data.life[level]; }
+    public int GetBulletHp() { return data.bulletHp[level]; }
 
     void SetAttackable()
     {
@@ -101,13 +68,6 @@ public class Tower : MonoBehaviour
         towerStack.SetActive(b);
     }
 
-    public int GetCost() { return cost[level]; }
-    public int GetNextCost() { return cost[level + 1]; }
-    public int GetSellCost() { return cost.GetRange(0, level + 1).Sum() * 4 / 5; }
-    public float GetRadius() { return radius[level] * (1 + radiusBonus / 100f); }
-    public float GetDelay() { return delay[level] * (1 + delayBonus / 100f); ; }
-    public float GetDamage() { return damage[level] * (1 + damageBonus / 100f); ; }
-    public int GetLevel() { return level; }
     public Dictionary<int, int> GetStackedTower()
     {
         if (lowerTower == null) return stackedTower;
@@ -118,10 +78,48 @@ public class Tower : MonoBehaviour
 
     public void AddLevel() { level++; UpdateRadiusSphere(); }
 
+    void Awake()
+    {
+        mouseCursor = FindObjectOfType<MouseCursor>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+        towerManager = FindObjectOfType<TowerManager>();
+        synergyManager = FindObjectOfType<SynergyManager>();
+        radiusSphere = transform.GetChild(1).gameObject;
+        attackable = true;
+        level = 0;
+        towerStack = transform.GetChild(2).gameObject;
+        data = towerManager.towerInfo[idx];
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        UpdateSynergy(); // Start가 OnInstallTower보다 늦게 불려서 OnInstallTower에서 UpdateSynergy를 호출하면 안 되더라...
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (attackable)
+        {
+            // todo: 타겟 설정 바꾸는 기능
+            Enemy target = GetTarget(e => e.GetLocation()); // 가장 앞에 있는 적
+                                                            // Enemy target = GetTarget(e => -(e.transform.position - transform.position).magnitude); // 가장 가까운 적
+            if (target != null)
+            {
+                Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation).GetComponent<Bullet>();
+                newBullet.SetTarget(target);
+                newBullet.SetBulletInfo(GetDamage(), GetSpeed(), GetTargeting(), GetLife(), GetBulletHp());
+                Invoke("SetAttackable", GetDelay());
+                attackable = false;
+            }
+        }
+    }
+
     public void UpdateRadiusSphere()
     {
         float scale = 2 * GetRadius();
-        switch (radiusType)
+        switch (GetRadiusType())
         {
             case RadiusType.normal:
                 radiusSphere.transform.localScale = scale * new Vector3(1, 1, 1);
