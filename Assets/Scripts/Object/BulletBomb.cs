@@ -23,7 +23,9 @@ public class BulletBomb : Bullet
                 SortedDictionary<float, Enemy> distanceDict = new SortedDictionary<float, Enemy>();
                 foreach (Enemy e in enemyManager.GetEnemySet())
                 {
-                    float distance = Vector3.Distance(transform.position, e.transform.position);
+                    Collider collider = e.GetComponent<Collider>();
+                    Vector3 closestPoint = collider.ClosestPoint(transform.position);
+                    float distance = Vector3.Distance(transform.position, closestPoint);
                     if (distance <= bombRange) distanceDict.Add(distance, e);
                 }
                 foreach (Enemy e in distanceDict.Values)
