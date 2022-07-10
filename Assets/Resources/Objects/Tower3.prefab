@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idx: 3
-  towerName: Tower3
+  towerName: Bomb Tower
   cost: fa000000320000006400000096000000c8000000
   radius:
   - 3
