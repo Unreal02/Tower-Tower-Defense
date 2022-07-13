@@ -48,42 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idx: 2
-  towerName: Spread Tower
-  cost: 96000000320000006400000096000000c8000000
-  radius:
-  - 1.5
-  - 1.5
-  - 1.5
-  - 1.5
-  - 1.5
-  delay:
-  - 1
-  - 0.9
-  - 0.8
-  - 0.7
-  - 0.6
-  radiusType: 1
-  bullet:
-  - {fileID: 4162652371874943503, guid: 5a198de8d7e997b449d89dd313c6e6b6, type: 3}
-  - {fileID: 4162652371874943503, guid: 5a198de8d7e997b449d89dd313c6e6b6, type: 3}
-  - {fileID: 4162652371874943503, guid: 5a198de8d7e997b449d89dd313c6e6b6, type: 3}
-  - {fileID: 4162652371874943503, guid: 5a198de8d7e997b449d89dd313c6e6b6, type: 3}
-  - {fileID: 4162652371874943503, guid: 5a198de8d7e997b449d89dd313c6e6b6, type: 3}
-  damage: 0100000001000000010000000100000001000000
-  speed:
-  - 5
-  - 5
-  - 5
-  - 5
-  - 5
-  targeting: 0000000000
-  life:
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  bulletHp: 0300000003000000030000000300000003000000
 --- !u!64 &7172841171114061846
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -97,7 +61,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8604045607132181640, guid: 6353c082e9c9ed84188cb84f80256acc, type: 3}
+  m_Mesh: {fileID: 7854677610985959545, guid: 6353c082e9c9ed84188cb84f80256acc, type: 3}
 --- !u!1 &9107408220146230282
 GameObject:
   m_ObjectHideFlags: 0

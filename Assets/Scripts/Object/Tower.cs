@@ -162,8 +162,8 @@ public class Tower : MonoBehaviour
     {
         RaycastHit hit;
         int layerMask = 1 << LayerMask.NameToLayer("Tower");
-        // 자기 자신의 Mesh를 감지하는 것을 막기 위해서 0.9만큼 아래서 Raycast
-        if (Physics.Raycast(transform.position + new Vector3(0, -0.9f, 0), new Vector3(0, -1, 0), out hit, 1, layerMask))
+        // 자기 자신의 Mesh를 감지하는 것을 막기 위해서 0.4만큼 아래서 Raycast
+        if (Physics.Raycast(transform.position + new Vector3(0, -0.4f, 0), new Vector3(0, -1, 0), out hit, 1, layerMask))
         {
             lowerTower = hit.transform.GetComponent<Tower>();
             lowerTower.SetUpperTower(this);

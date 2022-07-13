@@ -14,7 +14,7 @@ public class RoundManager : MonoBehaviour
         {
             time = t;
             enemy = e;
-            enemyObject = Resources.Load<GameObject>("Objects/" + enemy);
+            enemyObject = Resources.Load<GameObject>("Objects/Enemies/" + enemy);
         }
 
         public float time;

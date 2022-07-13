@@ -46,7 +46,7 @@ public class SynergyStatus : MonoBehaviour
         foreach (var idxCountPair in idxCountPairs)
         {
             GameObject o = new GameObject("Tower Image");
-            Sprite sprite = Resources.Load<Sprite>(string.Format("Images/Tower Button {0}", idxCountPair.Key));
+            Sprite sprite = Resources.Load<Sprite>(string.Format("Images/Tower Buttons/Tower Button {0}", idxCountPair.Key));
             Image image = o.AddComponent<Image>();
             image.sprite = sprite;
             image.color = Color.HSVToRGB(0, 0, 0.4f);
