@@ -141,7 +141,7 @@ public class Tower : MonoBehaviour
             {
                 float distance = (e.transform.position - transform.position).magnitude;
                 float key = func(e);
-                if (distance <= GetRadius() && key > targetKey)
+                if ((GetRadius() == 0 || distance <= GetRadius()) && key > targetKey)
                 {
                     target = e;
                     targetKey = key;
@@ -162,7 +162,8 @@ public class Tower : MonoBehaviour
     {
         RaycastHit hit;
         int layerMask = 1 << LayerMask.NameToLayer("Tower");
-        if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), out hit, 1, layerMask))
+        // 자기 자신의 Mesh를 감지하는 것을 막기 위해서 0.9만큼 아래서 Raycast
+        if (Physics.Raycast(transform.position + new Vector3(0, -0.9f, 0), new Vector3(0, -1, 0), out hit, 1, layerMask))
         {
             lowerTower = hit.transform.GetComponent<Tower>();
             lowerTower.SetUpperTower(this);

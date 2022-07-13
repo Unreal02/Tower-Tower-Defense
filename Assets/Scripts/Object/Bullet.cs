@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
     // 투사체 이동 (override 가능)
     protected virtual void Move()
     {
-        if (targeting)
+        if (targeting && target != null)
         {
             direction = (target.transform.position - rb.position).normalized;
         }

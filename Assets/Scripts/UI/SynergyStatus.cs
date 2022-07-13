@@ -36,7 +36,7 @@ public class SynergyStatus : MonoBehaviour
         }
         if (bonus.damageBonus != 0)
         {
-            text.text += string.Format("\n공격력 +{0}%", bonus.damageBonus);
+            text.text += string.Format("\n공격력 +{0}", bonus.damageBonus);
         }
         if (bonus.speedBonus != 0)
         {
