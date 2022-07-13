@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum RadiusType { normal, spread };
+public enum RadiusType { normal, spread, straight };
 
 // 타워 오브젝트입니다.
 // mouseCursor에서 타워 설치하기 전에는 비활성화 상태입니다.
@@ -30,7 +30,7 @@ public class Tower : MonoBehaviour
     private EnemyManager enemyManager;
     private SynergyManager synergyManager;
     private bool select; // 오브젝트가 선택되었는지 나타냄
-    private bool attackable; // 공격 딜레이가 지나서 공격 가능한가
+    protected bool attackable; // 공격 딜레이가 지나서 공격 가능한가
     private int level; // 현재 타워 레벨 (0 ~ 4)
 
     private GameObject towerStack;
@@ -122,7 +122,8 @@ public class Tower : MonoBehaviour
         switch (GetRadiusType())
         {
             case RadiusType.normal:
-                radiusSphere.transform.localScale = scale * new Vector3(1, 1, 1);
+            case RadiusType.straight:
+                radiusSphere.transform.localScale = (scale == 0 ? 1 : scale) * new Vector3(1, 1, 1);
                 break;
             case RadiusType.spread:
                 radiusSphere.transform.localScale = new Vector3(scale, radiusSphere.transform.localScale.y, scale);

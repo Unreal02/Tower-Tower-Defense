@@ -61,6 +61,11 @@ public class Bullet : MonoBehaviour
         direction = (target.transform.position - transform.position).normalized;
     }
 
+    public void SetDirection(Vector3 d)
+    {
+        direction = d;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))

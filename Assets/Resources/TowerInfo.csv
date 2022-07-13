@@ -49,3 +49,16 @@ Speed,10,10,10,10,10
 Targeting,1,1,1,1,1
 Life,10,10,10,10,10
 Bullet HP,1,1,1,1,1
+,,,,,
+Tower Idx,5,,,,
+Tower Name,Laser Tower,,,,
+Radius Type,straight,,,,
+Cost,500,50,100,150,200
+Radius,0,0,0,0,0
+Delay,0.5,0.5,0.5,0.5,0.5
+Bullet Idx,1,1,1,1,1
+Damage,1,1,1,1,1
+Speed,20,20,20,20,20
+Targeting,0,0,0,0,0
+Life,5,5,5,5,5
+Bullet HP,1,1,1,1,1
