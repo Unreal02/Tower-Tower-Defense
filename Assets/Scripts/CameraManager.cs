@@ -24,7 +24,7 @@ public class CameraManager : MonoBehaviour
         {
             prevMousePosition = currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         }
-        if (Input.GetMouseButton(1) && !Input.GetMouseButton(2))
+        if (Input.GetMouseButton(1) && !Input.GetMouseButton(2) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             prevMousePosition = currMousePosition;
             currMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
@@ -49,7 +49,7 @@ public class CameraManager : MonoBehaviour
         {
             prevMousePosition = currMousePosition = Input.mousePosition;
         }
-        if (Input.GetMouseButton(2) && !Input.GetMouseButton(0))
+        if (Input.GetMouseButton(2) && !Input.GetMouseButton(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             prevMousePosition = currMousePosition;
             currMousePosition = Input.mousePosition;

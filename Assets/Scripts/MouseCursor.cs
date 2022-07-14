@@ -60,7 +60,7 @@ public class MouseCursor : MonoBehaviour
             }
         }
 
-        if (cursorState == CursorState.installTower)
+        if (cursorState == CursorState.installTower && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hit, _hit;
             Vector3 camDir = cameraManager.transform.position - cam.transform.position;
@@ -151,6 +151,7 @@ public class MouseCursor : MonoBehaviour
         // Raycast에서 자기 자신을 인식하는 것을 막기 위해 임시로 레이어를 바꿈
         ChangeTowerLayer(LayerMask.NameToLayer("Ignore Raycast"));
         SetCursorState(CursorState.installTower);
+        selectedTower.SetActive(false);
         Tower towerComponent = selectedTower.GetComponent<Tower>();
         towerComponent.UpdateRadiusSphere(); // 반경을 나타내는 구 설정
         towerComponent.enabled = false; // Tower 컴포넌트를 끔으로써 공격 안 하도록 만듦
