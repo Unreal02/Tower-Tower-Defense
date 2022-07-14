@@ -18,6 +18,7 @@ public class MouseCursor : MonoBehaviour
     private GameObject selectedTower = null;
     private Vector3 size;
     private TowerStatus towerStatus;
+    private GameObject cancelInstallButton;
 
     private GraphicRaycaster gr; // UI 클릭
 
@@ -27,6 +28,7 @@ public class MouseCursor : MonoBehaviour
         towerManager = FindObjectOfType<TowerManager>();
         cameraManager = FindObjectOfType<CameraManager>();
         towerStatus = FindObjectOfType<TowerStatus>();
+        cancelInstallButton = GameObject.Find("Tower Button Set").transform.GetChild(1).gameObject;
         cam = Camera.main;
         size = FindObjectOfType<MapManager>().GetSize();
         cursorState = CursorState.idle;
@@ -166,6 +168,11 @@ public class MouseCursor : MonoBehaviour
         towerComponent.OnInstallTower();
     }
 
+    public void OnClickCancelInstallButton()
+    {
+        SetCursorState(CursorState.idle);
+    }
+
     public void OnSellTower() // 타워 판매하는 순간
     {
         SetCursorState(CursorState.idle);
@@ -181,6 +188,7 @@ public class MouseCursor : MonoBehaviour
         if (s == CursorState.idle) selectedTower = null;
         if (s == CursorState.selectTower) towerStatus.SetTowerStatusUI(true);
         else towerStatus.SetTowerStatusUI(false);
+        cancelInstallButton.SetActive(s == CursorState.installTower);
         cursorState = s;
     }
 }
