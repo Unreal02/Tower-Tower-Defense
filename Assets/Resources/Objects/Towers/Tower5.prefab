@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idx: 5
-  direction: {x: 1, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 1}
 --- !u!64 &6993727733708563867
 MeshCollider:
   m_ObjectHideFlags: 0

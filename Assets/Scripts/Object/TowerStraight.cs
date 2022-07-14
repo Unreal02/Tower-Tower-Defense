@@ -22,7 +22,11 @@ public class TowerStraight : Tower
                 attackable = false;
             }
         }
+    }
 
-        transform.LookAt(transform.position + direction, Vector3.up);
+    public void Rotate()
+    {
+        direction = Quaternion.AngleAxis(90, Vector3.up) * direction;
+        transform.LookAt(transform.position + direction);
     }
 }

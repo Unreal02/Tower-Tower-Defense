@@ -17,6 +17,7 @@ public class TowerStatus : MonoBehaviour
     private PlayerInfo playerInfo;
     private GameObject synergyStatusSet;
     private GameObject stackedSell;
+    private GameObject towerRotateButton;
     private Text statusText;
     private Text upgradeText;
     private Text sellText;
@@ -29,6 +30,7 @@ public class TowerStatus : MonoBehaviour
         playerInfo = FindObjectOfType<PlayerInfo>();
         synergyStatusSet = transform.GetChild(1).gameObject;
         stackedSell = transform.GetChild(2).gameObject;
+        towerRotateButton = transform.GetChild(3).gameObject;
         statusText = transform.GetChild(0).GetComponentInChildren<Text>();
         upgradeText = statusUI.transform.GetChild(1).GetComponentInChildren<Text>();
         sellText = statusUI.transform.GetChild(2).GetComponentInChildren<Text>();
@@ -45,7 +47,15 @@ public class TowerStatus : MonoBehaviour
     {
         statusUI.SetActive(b);
         synergyStatusSet.SetActive(b);
-        if (b) UpdateTowerStatus();
+        if (b)
+        {
+            towerRotateButton.SetActive(selectedTower.GetType() == typeof(TowerStraight));
+            UpdateTowerStatus();
+        }
+        else
+        {
+            towerRotateButton.SetActive(false);
+        }
     }
 
     public void UpdateTowerStatus()
@@ -92,6 +102,13 @@ public class TowerStatus : MonoBehaviour
             // 위에 쌓인 타워들이 없는 경우
             Sell(selectedTower);
         }
+    }
+
+    public void OnClickTowerRotateButton()
+    {
+        if (selectedTower == null) return;
+
+        ((TowerStraight)selectedTower).Rotate();
     }
 
     private void Sell(Tower tower)
