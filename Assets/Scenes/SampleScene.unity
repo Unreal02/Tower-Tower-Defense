@@ -8432,7 +8432,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Rotate
+  m_Text: "\uD68C\uC804"
 --- !u!222 &728876505
 CanvasRenderer:
   m_ObjectHideFlags: 0
