@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         // 경로 따라가기
         Vector3 position = rb.position;
         float distance = (path[nextNode] - position).magnitude;
-        float move = Time.deltaTime * speed;
+        float move = Time.deltaTime * (speed > 0 ? speed : 0);
         if (move >= distance)
         {
             currentNode++; nextNode++;
