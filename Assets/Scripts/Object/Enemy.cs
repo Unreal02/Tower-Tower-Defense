@@ -74,4 +74,28 @@ public class Enemy : MonoBehaviour
     {
         return 100 * currentNode + (path[currentNode] - transform.position).magnitude;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            BulletWind bullet;
+            if (other.TryGetComponent<BulletWind>(out bullet))
+            {
+                speed -= bullet.GetDamage() / 10f;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            BulletWind bullet;
+            if (other.TryGetComponent<BulletWind>(out bullet))
+            {
+                speed += bullet.GetDamage() / 10f;
+            }
+        }
+    }
 }

@@ -36,6 +36,7 @@ public class Tower : MonoBehaviour
     private GameObject towerStack;
     private Tower upperTower;
     private Tower lowerTower;
+    private List<GameObject> bulletList;
 
     public int GetLevel() { return level; }
     public string GetTowerName() { return data.towerName; }
@@ -52,8 +53,9 @@ public class Tower : MonoBehaviour
     public float GetLife() { return data.life[level]; }
     public int GetBulletHp() { return data.bulletHp[level]; }
 
-    void SetAttackable()
+    protected IEnumerator SetAttackable()
     {
+        yield return new WaitForSeconds(GetDelay());
         attackable = true;
     }
 
@@ -89,6 +91,7 @@ public class Tower : MonoBehaviour
         level = 0;
         towerStack = transform.GetChild(2).gameObject;
         data = towerManager.towerInfo[idx];
+        bulletList = new List<GameObject>();
     }
 
     // Start is called before the first frame update
@@ -107,12 +110,24 @@ public class Tower : MonoBehaviour
                                                             // Enemy target = GetTarget(e => -(e.transform.position - transform.position).magnitude); // 가장 가까운 적
             if (target != null)
             {
+                // 투사체를 자식 오브젝트로 생성
                 Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation).GetComponent<Bullet>();
+                Debug.Log("asdf");
+                bulletList.Add(newBullet.gameObject);
                 newBullet.SetTarget(target);
                 newBullet.SetBulletInfo(GetDamage(), GetSpeed(), GetTargeting(), GetLife(), GetBulletHp());
-                Invoke("SetAttackable", GetDelay());
+                StartCoroutine(SetAttackable());
                 attackable = false;
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // 투사체 제거
+        foreach (GameObject bullet in bulletList)
+        {
+            Destroy(bullet.gameObject);
         }
     }
 

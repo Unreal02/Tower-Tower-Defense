@@ -18,7 +18,7 @@ public class TowerStraight : Tower
                 Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation).GetComponent<Bullet>();
                 newBullet.SetBulletInfo(GetDamage(), GetSpeed(), GetTargeting(), GetLife(), GetBulletHp());
                 newBullet.SetDirection(direction);
-                Invoke("SetAttackable", GetDelay());
+                StartCoroutine(SetAttackable());
                 attackable = false;
             }
         }

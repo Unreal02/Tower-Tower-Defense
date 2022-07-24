@@ -68,10 +68,10 @@ Tower Name,Wind Tower,,,,
 Radius Type,straight,,,,
 Cost,150,50,100,150,200
 Radius,0,0,0,0,0
-Delay,0,0,0,0,0
+Delay,9999999,9999999,9999999,9999999,9999999
 Bullet Idx,6,6,6,6,6
 Damage,5,6,7,8,10
 Speed,0,0,0,0,0
 Targeting,0,0,0,0,0
-Life,0,0,0,0,0
+Life,9999999,9999999,9999999,9999999,9999999
 Bullet HP,0,0,0,0,0

@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     protected float life; // 수명
     protected int hp; // 관통력
 
+    public int GetDamage() { return damage; }
+
     protected Enemy target; // 목표
     protected Vector3 direction; // 날아가는 방향
 
