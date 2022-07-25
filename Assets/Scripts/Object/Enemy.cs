@@ -35,10 +35,19 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Wind Tower에 의한 효과 계산
+        Bullet6[] wind = FindObjectsOfType<Bullet6>();
+        float currentSpeed = speed;
+        foreach (Bullet6 bullet6 in wind)
+        {
+            currentSpeed += bullet6.GetDeltaSpeed(currentNode);
+        }
+        if (currentSpeed < 0) currentSpeed = 0;
+
         // 경로 따라가기
         Vector3 position = rb.position;
         float distance = (path[nextNode] - position).magnitude;
-        float move = Time.deltaTime * (speed > 0 ? speed : 0);
+        float move = Time.deltaTime * currentSpeed;
         if (move >= distance)
         {
             currentNode++; nextNode++;
@@ -73,29 +82,5 @@ public class Enemy : MonoBehaviour
     public float GetLocation()
     {
         return 100 * currentNode + (path[currentNode] - transform.position).magnitude;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            Bullet6 bullet;
-            if (other.TryGetComponent<Bullet6>(out bullet))
-            {
-                speed -= bullet.GetDamage() / 10f;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            Bullet6 bullet;
-            if (other.TryGetComponent<Bullet6>(out bullet))
-            {
-                speed += bullet.GetDamage() / 10f;
-            }
-        }
     }
 }

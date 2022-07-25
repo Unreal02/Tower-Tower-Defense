@@ -111,7 +111,7 @@ public class Tower : MonoBehaviour
             if (target != null)
             {
                 // 투사체를 자식 오브젝트로 생성
-                Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation).GetComponent<Bullet>();
+                Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation, transform).GetComponent<Bullet>();
                 bulletList.Add(newBullet.gameObject);
                 newBullet.SetTarget(target);
                 newBullet.SetBulletInfo(GetDamage(), GetSpeed(), GetTargeting(), GetLife(), GetBulletHp());

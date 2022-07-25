@@ -15,7 +15,7 @@ public class TowerStraight : Tower
             int layerMask = 1 << LayerMask.NameToLayer("Enemy");
             if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity, layerMask))
             {
-                Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation).GetComponent<Bullet>();
+                Bullet newBullet = Instantiate(GetBullet(), transform.position, transform.rotation, transform).GetComponent<Bullet>();
                 newBullet.SetBulletInfo(GetDamage(), GetSpeed(), GetTargeting(), GetLife(), GetBulletHp());
                 newBullet.SetDirection(direction);
                 StartCoroutine(SetAttackable());

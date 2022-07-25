@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3370764102500601284}
   - component: {fileID: -9174904056875159173}
-  - component: {fileID: 3634543857225146231}
   - component: {fileID: -7946221090104095382}
   m_Layer: 10
   m_Name: Bullet6
@@ -46,19 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectObject: {fileID: 0}
---- !u!65 &3634543857225146231
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4162652371874943503}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.001, y: 0.001, z: 20}
-  m_Center: {x: 0, y: 0, z: 10}
 --- !u!54 &-7946221090104095382
 Rigidbody:
   m_ObjectHideFlags: 0
