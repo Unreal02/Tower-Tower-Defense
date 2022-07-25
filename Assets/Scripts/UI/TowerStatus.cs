@@ -47,6 +47,7 @@ public class TowerStatus : MonoBehaviour
     {
         statusUI.SetActive(b);
         synergyStatusSet.SetActive(b);
+        stackedSell.SetActive(false);
         if (b)
         {
             towerRotateButton.SetActive(selectedTower.GetType() == typeof(TowerStraight));

@@ -41,12 +41,10 @@ public class Bullet6 : Bullet
             {
                 if (direction == pathDirection)
                 {
-                    Debug.Log("역방향");
                     deltaSpeed.Add(i, 1);
                 }
                 else if (direction == -pathDirection)
                 {
-                    Debug.Log("정방향");
                     deltaSpeed.Add(i, -1);
                 }
             }
