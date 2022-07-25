@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public GameObject effectObject;
+
     protected int damage; // 공격력
     protected float speed; // 속력
     protected bool targeting; // 목표를 따라가는지 여부
@@ -36,6 +38,14 @@ public class Bullet : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+
+    private void OnDestroy()
+    {
+        if (effectObject != null)
+        {
+            Instantiate(effectObject, transform.position, transform.rotation);
+        }
     }
 
     // 투사체 이동 (override 가능)

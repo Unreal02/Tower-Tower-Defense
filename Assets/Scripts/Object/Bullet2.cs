@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletSpread : Bullet
+public class Bullet2 : Bullet
 {
     protected override void Move()
     {

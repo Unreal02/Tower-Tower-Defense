@@ -79,8 +79,8 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
-            BulletWind bullet;
-            if (other.TryGetComponent<BulletWind>(out bullet))
+            Bullet6 bullet;
+            if (other.TryGetComponent<Bullet6>(out bullet))
             {
                 speed -= bullet.GetDamage() / 10f;
             }
@@ -91,8 +91,8 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
-            BulletWind bullet;
-            if (other.TryGetComponent<BulletWind>(out bullet))
+            Bullet6 bullet;
+            if (other.TryGetComponent<Bullet6>(out bullet))
             {
                 speed += bullet.GetDamage() / 10f;
             }

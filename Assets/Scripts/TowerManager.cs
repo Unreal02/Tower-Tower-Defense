@@ -66,7 +66,7 @@ public class TowerManager : MonoBehaviour
                     for (int i = 0; i < 5; i++)
                     {
                         int bulletIdx = int.Parse(list[i + 1]);
-                        towerInfo[currTowerIdx].bullet.Add(Resources.Load<GameObject>("Objects/Bullets/Bullet" + bulletIdx));
+                        towerInfo[currTowerIdx].bullet.Add(Resources.Load<GameObject>("Prefabs/Bullets/Bullet" + bulletIdx));
                     }
                     break;
                 case "Damage":

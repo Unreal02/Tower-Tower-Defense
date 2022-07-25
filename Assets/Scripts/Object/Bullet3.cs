@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletBomb : Bullet
+public class Bullet3 : Bullet
 {
     private EnemyManager enemyManager;
     public float bombRange;
