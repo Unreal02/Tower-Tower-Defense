@@ -4,8 +4,9 @@ using UnityEngine;
 // 적 오브젝트입니다.
 public class Enemy : MonoBehaviour
 {
-    public int hp;
-    public float speed;
+    public int idx;
+    private EnemyManager.EnemyData data;
+    int hp;
 
     private PlayerInfo playerInfo;
     private LineRenderer pathManager;
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour
         pathManager.GetPositions(path);
         transform.position = path[currentNode];
         transform.GetChild(0).rotation = Quaternion.Euler(Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180));
+        data = enemyManager.enemyInfo[idx];
+        hp = data.hp;
     }
 
     void Update()
@@ -37,7 +40,7 @@ public class Enemy : MonoBehaviour
     {
         // Wind Tower에 의한 효과 계산
         Bullet6[] wind = FindObjectsOfType<Bullet6>();
-        float currentSpeed = speed;
+        float currentSpeed = data.speed;
         foreach (Bullet6 bullet6 in wind)
         {
             currentSpeed += bullet6.GetDeltaSpeed(currentNode);
@@ -68,6 +71,7 @@ public class Enemy : MonoBehaviour
     void OnDestroy()
     {
         enemyManager.RemoveEnemy(this);
+        playerInfo.AddMoney(data.money);
     }
 
     public void SubtractHp(int delta)
