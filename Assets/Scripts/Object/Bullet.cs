@@ -56,6 +56,7 @@ public class Bullet : MonoBehaviour
             direction = (target.transform.position - rb.position).normalized;
         }
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        rb.MoveRotation(Quaternion.LookRotation(direction));
     }
 
     public void SetBulletInfo(int d, float s, bool t, float l, int h)
