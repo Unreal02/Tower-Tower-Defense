@@ -26,12 +26,6 @@ public class TowerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         towerInfo = new Dictionary<int, TowerData>();
         List<List<string>> csv = CSVReader.Read("TowerInfo");
         int currTowerIdx = 0;
@@ -91,5 +85,11 @@ public class TowerManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 }
