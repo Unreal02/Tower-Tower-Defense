@@ -56,7 +56,7 @@ Radius Type,straight,,,,
 Cost,500,50,100,150,200
 Radius,0,0,0,0,0
 Delay,0.5,0.5,0.5,0.5,0.5
-Bullet Idx,1,1,1,1,1
+Bullet Idx,5,5,5,5,5
 Damage,1,1,1,1,1
 Speed,20,20,20,20,20
 Targeting,0,0,0,0,0
