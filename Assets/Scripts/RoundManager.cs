@@ -37,9 +37,10 @@ public class RoundManager : MonoBehaviour
 
         // CSV 읽기
         List<List<string>> csv = CSVReader.Read("RoundInfo");
+        csv.RemoveAt(0);
         int currRound = 0;
         roundInfo.Add(new List<Spawn>());
-        foreach (List<string> list in csv.GetRange(1, csv.Count - 1))
+        foreach (List<string> list in csv)
         {
             // list: (level, ID, amount)
             if (list.Count != 3) continue;

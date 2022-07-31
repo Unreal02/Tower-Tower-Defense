@@ -34,8 +34,9 @@ public class SynergyManager : MonoBehaviour
     {
         synergyInfo = new SortedDictionary<int, Synergy>();
         List<List<string>> csv = CSVReader.Read("SynergyInfo");
+        csv.RemoveRange(0, 2);
         int currSynergyIdx = 0;
-        foreach (List<string> list in csv.GetRange(2, csv.Count - 2))
+        foreach (List<string> list in csv)
         {
             if (list.Count != 7) continue;
             int synergyIdx;
