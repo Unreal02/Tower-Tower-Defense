@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
         csv.RemoveAt(0);
         foreach (List<string> list in csv)
         {
-            if (list.Count != 4) continue;
+            if (list.Count != 5) continue;
             EnemyData data = new EnemyData();
             data.hp = int.Parse(list[1]);
             data.speed = float.Parse(list[2]);

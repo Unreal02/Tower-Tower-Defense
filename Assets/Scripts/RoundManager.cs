@@ -38,26 +38,21 @@ public class RoundManager : MonoBehaviour
         // CSV 읽기
         List<List<string>> csv = CSVReader.Read("RoundInfo");
         csv.RemoveAt(0);
-        int currRound = 0;
         roundInfo.Add(new List<Spawn>());
         foreach (List<string> list in csv)
         {
-            // list: (level, ID, amount)
-            if (list.Count != 3) continue;
-            int round;
-            if (int.TryParse(list[0], out round))
-            {
-                currRound = round;
-            }
+            // list: (level, time, idx)
+            if (list.Count != 4) continue;
+            int round = int.Parse(list[0]);
             float time = float.Parse(list[1]);
             int enemyIdx = int.Parse(list[2]);
             string enemyName = "Enemy" + enemyIdx.ToString();
 
-            if (roundInfo.Count <= currRound)
+            if (roundInfo.Count <= round)
             {
                 roundInfo.Add(new List<Spawn>());
             }
-            roundInfo[currRound].Add(new Spawn(time, enemyName));
+            roundInfo[round].Add(new Spawn(time, enemyName));
         }
     }
 

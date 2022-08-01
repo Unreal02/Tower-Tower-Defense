@@ -71,7 +71,10 @@ public class Enemy : MonoBehaviour
     void OnDestroy()
     {
         enemyManager.RemoveEnemy(this);
-        playerInfo.AddMoney(data.money);
+        if (hp <= 0)
+        {
+            playerInfo.AddMoney(data.money);
+        }
     }
 
     public void SubtractHp(int delta)
