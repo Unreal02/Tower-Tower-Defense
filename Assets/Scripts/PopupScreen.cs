@@ -18,6 +18,10 @@ public class PopupScreen : MonoBehaviour
         currentScreen = null;
         Time.timeScale = 1;
 
+        // Pause Button
+        Button pauseButton = GameObject.Find("Pause Button").GetComponent<Button>();
+        pauseButton.onClick.AddListener(Pause);
+
         pauseScreen = transform.GetChild(0).gameObject;
         pauseScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Resume);
         pauseScreen.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(Restart);
