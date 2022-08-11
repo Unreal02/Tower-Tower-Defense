@@ -14,9 +14,11 @@ public class MouseCursor : MonoBehaviour
     private CursorState cursorState;
     private TowerManager towerManager;
     private CameraManager cameraManager;
+    private LineRenderer pathManager;
+    private Vector3[] path;
     private Camera cam;
     private GameObject selectedTower = null;
-    private Vector3 size;
+    private Vector3 mapSize;
     private TowerStatus towerStatus;
     private GameObject cancelInstallButton;
 
@@ -27,10 +29,13 @@ public class MouseCursor : MonoBehaviour
         playerInfo = FindObjectOfType<PlayerInfo>();
         towerManager = FindObjectOfType<TowerManager>();
         cameraManager = FindObjectOfType<CameraManager>();
+        pathManager = FindObjectOfType<LineRenderer>();
+        path = new Vector3[pathManager.positionCount];
+        pathManager.GetPositions(path);
         towerStatus = FindObjectOfType<TowerStatus>();
         cancelInstallButton = GameObject.Find("Tower Button Set").transform.GetChild(1).gameObject;
         cam = Camera.main;
-        size = FindObjectOfType<MapManager>().GetSize();
+        mapSize = FindObjectOfType<MapManager>().GetSize();
         cursorState = CursorState.idle;
         gr = FindObjectOfType<GraphicRaycaster>(); // UI 클릭
     }
@@ -70,17 +75,29 @@ public class MouseCursor : MonoBehaviour
 
             // 커서가 블록 또는 타워에 닿아 있고
             // 윗 칸이 비어 있고
-            // todo: 경로를 건드리지 않는 경우
+            // 경로를 건드리지 않는 경우
             if (Physics.Raycast(cam.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cam.nearClipPlane)), cam.transform.forward, out hit, Mathf.Infinity, layerMask)
                 && !Physics.Raycast(hit.transform.position, new Vector3(0, 1, 0), out _hit, 1, layerMask))
             {
                 float x = hit.transform.position.x;
                 float z = hit.transform.position.z;
-                if (0 <= x && x < size.x && 0 <= z && z < size.z)
+                Vector3 towerPosition = hit.transform.position + Vector3.up;
+
+                bool hitPath = false;
+                for (int i = 0; i < path.Length - 1; i++)
+                {
+                    if (towerPosition == path[i] || Vector3.Angle(path[i + 1] - towerPosition, path[i] - towerPosition) == 180)
+                    {
+                        hitPath = true;
+                        break;
+                    }
+                }
+
+                if (0 <= x && x < mapSize.x && 0 <= z && z < mapSize.z && !hitPath)
                 {
                     selectedTower.SetActive(true);
                     selectedTower.GetComponent<Tower>().SetTowerStack(hit.transform.GetComponent<Tower>());
-                    selectedTower.transform.position = hit.transform.position + Vector3.up;
+                    selectedTower.transform.position = towerPosition;
                 }
                 else
                 {
