@@ -1,9 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerInfo : MonoBehaviour
 {
+    public UnityEvent onGameLose;
+
     public int initialMoney;
     public int initialLife;
 
@@ -26,7 +29,8 @@ public class PlayerInfo : MonoBehaviour
     void Update()
     {
         int round = roundManager.GetCurrentRound();
-        text.text = string.Format("라운드 {0}\n자금 {1}\n체력 {2}", round, money, life);
+        int maxRound = roundManager.GetMaxRound();
+        text.text = string.Format("라운드 {0} / {1}\n자금 {2}\n체력 {3}", round, maxRound, money, life);
     }
 
     public int GetMoney() { return money; }
@@ -36,6 +40,9 @@ public class PlayerInfo : MonoBehaviour
     public void SubtractLife(int delta)
     {
         life -= delta;
-        // todo: life가 0 이하가 되면 게임 오버
+        if (life <= 0)
+        {
+            onGameLose.Invoke();
+        }
     }
 }

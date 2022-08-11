@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 // 라운드를 관리합니다.
 public class RoundManager : MonoBehaviour
 {
+    public UnityEvent onGameWin;
 
     [Serializable]
     public class Spawn
@@ -26,6 +28,7 @@ public class RoundManager : MonoBehaviour
 
     private int next = 0;
     private int currentRound = 1;
+    private int maxRound;
     private float currentTime = 0;
     private bool onRound = false;
     private Text text;
@@ -53,6 +56,7 @@ public class RoundManager : MonoBehaviour
                 roundInfo.Add(new List<Spawn>());
             }
             roundInfo[round].Add(new Spawn(time, enemyName));
+            if (maxRound < round) maxRound = round;
         }
     }
 
@@ -72,11 +76,15 @@ public class RoundManager : MonoBehaviour
                 {
                     onRound = false;
                     currentRound++;
+                    if (currentRound > maxRound)
+                    {
+                        onGameWin.Invoke();
+                    }
                 }
             }
             text.text = "라운드 진행 중";
         }
-        else text.text = "다음 라운드";
+        else text.text = "라운드 시작";
     }
 
     public void OnClickNextRound()
@@ -88,8 +96,7 @@ public class RoundManager : MonoBehaviour
         onRound = true;
     }
 
-    public int GetCurrentRound()
-    {
-        return currentRound;
-    }
+    public int GetCurrentRound() { return currentRound; }
+
+    public int GetMaxRound() { return maxRound; }
 }
