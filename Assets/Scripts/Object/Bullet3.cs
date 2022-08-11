@@ -7,9 +7,8 @@ public class Bullet3 : Bullet
     private EnemyManager enemyManager;
     public float bombRange;
 
-    private void Start()
+    protected override void OnStart()
     {
-        rb = GetComponent<Rigidbody>();
         enemyManager = FindObjectOfType<EnemyManager>();
     }
 

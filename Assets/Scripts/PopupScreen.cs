@@ -39,10 +39,10 @@ public class PopupScreen : MonoBehaviour
         helpScreen = transform.GetChild(3).gameObject;
         helpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Pause);
 
-        PlayerInfo playerInfo = GameObject.FindObjectOfType<PlayerInfo>();
+        PlayerInfo playerInfo = FindObjectOfType<PlayerInfo>();
         playerInfo.onGameLose.AddListener(GameLose);
 
-        RoundManager roundManager = GameObject.FindObjectOfType<RoundManager>();
+        RoundManager roundManager = FindObjectOfType<RoundManager>();
         roundManager.onGameWin.AddListener(GameWin);
     }
 

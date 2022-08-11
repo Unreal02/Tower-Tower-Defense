@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public GameObject effectObject;
+    private Vector3 mapSize;
 
     protected int damage; // 공격력
     protected float speed; // 속력
@@ -23,7 +24,11 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        mapSize = FindObjectOfType<MapManager>().GetSize();
+        OnStart();
     }
+
+    protected virtual void OnStart() { }
 
     // Update is called once per frame
     void Update()
@@ -33,7 +38,20 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // 맵으로부터 threshold 값만큼 멀어지면 파괴
+        float threshold = 2;
+        Vector3 pos = transform.position;
+        if (pos.x < -threshold || pos.y < -threshold || pos.z < -threshold || pos.x > mapSize.x + threshold || pos.y > mapSize.y + threshold || pos.z > mapSize.z + threshold)
+        {
+            effectObject = null; // 이펙트 생성 방지
+            Destroy(gameObject);
+        }
+
+        OnUpdate();
     }
+
+    protected virtual void OnUpdate() { }
 
     private void FixedUpdate()
     {

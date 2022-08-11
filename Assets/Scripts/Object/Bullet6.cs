@@ -10,9 +10,8 @@ public class Bullet6 : Bullet
     private Tower tower;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void OnStart()
     {
-        rb = GetComponent<Rigidbody>();
         pathManager = FindObjectOfType<LineRenderer>();
         path = new Vector3[pathManager.positionCount];
         pathManager.GetPositions(path);
@@ -21,7 +20,7 @@ public class Bullet6 : Bullet
         UpdateDeltaSpeed();
     }
 
-    void Update()
+    protected override void OnUpdate()
     {
         if (transform.hasChanged)
         {
