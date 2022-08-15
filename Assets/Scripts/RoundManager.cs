@@ -45,7 +45,7 @@ public class RoundManager : MonoBehaviour
         foreach (List<string> list in csv)
         {
             // list: (level, time, idx)
-            if (list.Count != 4) continue;
+            if (list.Count != 3) continue;
             int round = int.Parse(list[0]);
             float time = float.Parse(list[1]);
             int enemyIdx = int.Parse(list[2]);
@@ -75,10 +75,13 @@ public class RoundManager : MonoBehaviour
                 if (transform.childCount == 0)
                 {
                     onRound = false;
-                    currentRound++;
-                    if (currentRound > maxRound)
+                    if (currentRound >= maxRound)
                     {
                         onGameWin.Invoke();
+                    }
+                    else
+                    {
+                        currentRound++;
                     }
                 }
             }
