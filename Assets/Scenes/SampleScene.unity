@@ -2314,8 +2314,8 @@ MonoBehaviour:
   onGameLose:
     m_PersistentCalls:
       m_Calls: []
-  initialMoney: 5000
-  initialLife: 100
+  initialMoney: 150
+  initialLife: 50
 --- !u!1001 &138725838
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -44,18 +44,20 @@ public class RoundManager : MonoBehaviour
         roundInfo.Add(new List<Spawn>());
         foreach (List<string> list in csv)
         {
-            // list: (level, time, idx)
-            if (list.Count != 3) continue;
+            // list: (level, time, idx, amount, interval)
+            if (list.Count != 5) continue;
             int round = int.Parse(list[0]);
             float time = float.Parse(list[1]);
             int enemyIdx = int.Parse(list[2]);
             string enemyName = "Enemy" + enemyIdx.ToString();
+            int amount = int.Parse(list[3]);
+            float interval = float.Parse(list[4]);
 
             if (roundInfo.Count <= round)
             {
                 roundInfo.Add(new List<Spawn>());
             }
-            roundInfo[round].Add(new Spawn(time, enemyName));
+            for (int i = 0; i < amount; i++) roundInfo[round].Add(new Spawn(time + i * interval, enemyName));
             if (maxRound < round) maxRound = round;
         }
     }

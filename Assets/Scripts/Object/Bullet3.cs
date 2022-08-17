@@ -19,16 +19,23 @@ public class Bullet3 : Bullet
             if (hp > 0)
             {
                 // 가까운 순으로 hp 개수만큼의 적에게 데미지
+                List<KeyValuePair<float, Enemy>> distancePair = new List<KeyValuePair<float, Enemy>>();
                 SortedDictionary<float, Enemy> distanceDict = new SortedDictionary<float, Enemy>();
                 foreach (Enemy e in enemyManager.GetEnemySet())
                 {
                     Collider collider = e.GetComponent<Collider>();
                     Vector3 closestPoint = collider.ClosestPoint(transform.position);
                     float distance = Vector3.Distance(transform.position, closestPoint);
-                    if (distance <= bombRange) distanceDict.Add(distance, e);
+                    if (distance <= bombRange)
+                    {
+                        distanceDict.Add(distance, e);
+                        distancePair.Add(new KeyValuePair<float, Enemy>(distance, e));
+                    }
                 }
-                foreach (Enemy e in distanceDict.Values)
+                distancePair.Sort();
+                foreach (KeyValuePair<float, Enemy> pair in distancePair)
                 {
+                    Enemy e = pair.Value;
                     e.SubtractHp(damage);
                     hp -= 1;
                     if (hp <= 0) break;
