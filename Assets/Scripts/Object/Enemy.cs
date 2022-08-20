@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
         {
             currentSpeed += bullet6.GetDeltaSpeed(currentNode);
         }
-        if (currentSpeed < 0) currentSpeed = 0;
+        if (currentSpeed < 0.1f) currentSpeed = 0.1f;
 
         // 경로 따라가기
         Vector3 position = rb.position;
