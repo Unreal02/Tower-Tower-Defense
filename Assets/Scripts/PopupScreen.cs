@@ -11,6 +11,9 @@ public class PopupScreen : MonoBehaviour
     private GameObject gameWinScreen;
     private GameObject gameLoseScreen;
     private GameObject helpScreen;
+    private GameObject manualHelpScreen;
+    private GameObject towerHelpScreen;
+    private GameObject enemyHelpScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +40,19 @@ public class PopupScreen : MonoBehaviour
         gameLoseScreen.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(Quit);
 
         helpScreen = transform.GetChild(3).gameObject;
-        helpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Pause);
+        helpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(ManualHelp);
+        helpScreen.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(TowerHelp);
+        helpScreen.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(EnemyHelp);
+        helpScreen.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(Pause);
+
+        manualHelpScreen = transform.GetChild(4).gameObject;
+        manualHelpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Help);
+        
+        towerHelpScreen = transform.GetChild(5).gameObject;
+        towerHelpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Help);
+        
+        enemyHelpScreen = transform.GetChild(6).gameObject;
+        enemyHelpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Help);
 
         PlayerInfo playerInfo = FindObjectOfType<PlayerInfo>();
         playerInfo.onGameLose.AddListener(GameLose);
@@ -63,30 +78,30 @@ public class PopupScreen : MonoBehaviour
             {
                 Pause();
             }
+            else if(currentScreen == manualHelpScreen || currentScreen == towerHelpScreen || currentScreen == enemyHelpScreen)
+            {
+                Help();
+            }
         }
     }
 
     private void GameWin()
     {
-        Time.timeScale = 0;
         SetCurrentScreen(gameWinScreen);
     }
 
     private void GameLose()
     {
-        Time.timeScale = 0;
         SetCurrentScreen(gameLoseScreen);
     }
 
     private void Pause()
     {
-        Time.timeScale = 0;
         SetCurrentScreen(pauseScreen);
     }
 
     private void Resume()
     {
-        Time.timeScale = 1;
         SetCurrentScreen(null);
     }
 
@@ -97,8 +112,22 @@ public class PopupScreen : MonoBehaviour
 
     private void Help()
     {
-        Time.timeScale = 0;
         SetCurrentScreen(helpScreen);
+    }
+
+    private void ManualHelp()
+    {
+        SetCurrentScreen(manualHelpScreen);
+    }
+
+    private void TowerHelp()
+    {
+        SetCurrentScreen(towerHelpScreen);
+    }
+
+    private void EnemyHelp()
+    {
+        SetCurrentScreen(enemyHelpScreen);
     }
 
     private void Quit()
@@ -113,6 +142,11 @@ public class PopupScreen : MonoBehaviour
         if (currentScreen != null)
         {
             currentScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
     }
 }
