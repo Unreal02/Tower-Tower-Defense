@@ -26,7 +26,6 @@ public class Enemy : MonoBehaviour
         path = new Vector3[pathManager.positionCount];
         pathManager.GetPositions(path);
         transform.position = path[currentNode];
-        transform.GetChild(0).rotation = Quaternion.Euler(Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180));
         data = enemyManager.enemyInfo[idx];
         hp = data.hp;
     }

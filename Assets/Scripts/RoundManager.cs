@@ -12,14 +12,16 @@ public class RoundManager : MonoBehaviour
     [Serializable]
     public class Spawn
     {
-        public Spawn(float t, string e)
+        public Spawn(float t, int i, string e)
         {
             time = t;
+            enemyIdx = i;
             enemy = e;
             enemyObject = Resources.Load<GameObject>("Prefabs/Enemies/" + enemy);
         }
 
         public float time;
+        public int enemyIdx;
         public string enemy;
         public GameObject enemyObject;
     }
@@ -33,10 +35,15 @@ public class RoundManager : MonoBehaviour
     private bool onRound = false;
     private Text text;
 
+    private Dictionary<int, Quaternion> enemyRotation;
+    private int[] enemyIdxList = { 101, 102, 103, 301, 302, 303, 401, 402, 403 };
+
     void Start()
     {
         roundInfo = new List<List<Spawn>>();
         text = GameObject.Find("Next Round Button").GetComponentInChildren<Text>();
+
+        enemyRotation = new Dictionary<int, Quaternion>();
 
         // CSV 읽기
         List<List<string>> csv = CSVReader.Read("RoundInfo");
@@ -57,7 +64,7 @@ public class RoundManager : MonoBehaviour
             {
                 roundInfo.Add(new List<Spawn>());
             }
-            for (int i = 0; i < amount; i++) roundInfo[round].Add(new Spawn(time + i * interval, enemyName));
+            for (int i = 0; i < amount; i++) roundInfo[round].Add(new Spawn(time + i * interval, enemyIdx, enemyName));
             if (maxRound < round) maxRound = round;
         }
     }
@@ -69,7 +76,8 @@ public class RoundManager : MonoBehaviour
             currentTime += Time.deltaTime;
             if (next < roundInfo[currentRound].Count && currentTime >= roundInfo[currentRound][next].time)
             {
-                Instantiate(roundInfo[currentRound][next].enemyObject, Vector3.zero, Quaternion.identity, transform);
+                GameObject enemyObject = Instantiate(roundInfo[currentRound][next].enemyObject, Vector3.zero, Quaternion.identity, transform);
+                enemyObject.transform.rotation = enemyRotation[roundInfo[currentRound][next].enemyIdx];
                 next++;
             }
             else if (next >= roundInfo[currentRound].Count)
@@ -99,6 +107,13 @@ public class RoundManager : MonoBehaviour
         currentTime = 0;
         next = 0;
         onRound = true;
+
+        // enemyRotation 수정
+        enemyRotation.Clear();
+        foreach (int enemyIdx in enemyIdxList)
+        {
+            enemyRotation.Add(enemyIdx, Quaternion.Euler(UnityEngine.Random.Range(-180, 180), UnityEngine.Random.Range(-180, 180), UnityEngine.Random.Range(-180, 180)));
+        }
     }
 
     public int GetCurrentRound() { return currentRound; }

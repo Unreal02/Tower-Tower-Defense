@@ -18,8 +18,6 @@ public class PopupScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetCurrentScreen(null);
-
         // Pause Button
         Button pauseButton = GameObject.Find("Pause Button").GetComponent<Button>();
         pauseButton.onClick.AddListener(Pause);
@@ -58,6 +56,8 @@ public class PopupScreen : MonoBehaviour
 
         RoundManager roundManager = FindObjectOfType<RoundManager>();
         roundManager.onGameWin.AddListener(GameWin);
+
+        SetCurrentScreen(null);
     }
 
     // Update is called once per frame

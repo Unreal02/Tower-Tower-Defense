@@ -65,11 +65,11 @@ public class TowerStatus : MonoBehaviour
         int level = selectedTower.GetLevel();
         if (level < 4)
         {
-            upgradeText.text = string.Format("레벨 {0} -> {1}\n{2}", level, level + 1, selectedTower.GetNextCost());
+            upgradeText.text = string.Format("레벨 {0} -> {1}\n{2}", level + 1, level + 2, selectedTower.GetNextCost());
         }
         else
         {
-            upgradeText.text = string.Format("레벨 {0}\n최대 레벨", level);
+            upgradeText.text = string.Format("레벨 {0}\n최대 레벨", level + 1);
         }
 
         sellText.text = string.Format("매각\n{0}", selectedTower.GetSellCost());

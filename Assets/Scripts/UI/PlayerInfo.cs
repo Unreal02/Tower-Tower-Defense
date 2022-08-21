@@ -42,6 +42,7 @@ public class PlayerInfo : MonoBehaviour
         life -= delta;
         if (life <= 0)
         {
+            life = 0;
             onGameLose.Invoke();
         }
     }
