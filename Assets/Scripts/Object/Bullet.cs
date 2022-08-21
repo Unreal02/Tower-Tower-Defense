@@ -55,7 +55,7 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (speed > 0) Move();
     }
 
     private void OnDestroy()

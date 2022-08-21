@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum RadiusType { normal, spread, straight };
+public enum RadiusType { normal, spread, straight, up };
 
 // 타워 오브젝트입니다.
 // mouseCursor에서 타워 설치하기 전에는 비활성화 상태입니다.
