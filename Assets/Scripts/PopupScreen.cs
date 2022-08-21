@@ -18,8 +18,7 @@ public class PopupScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentScreen = null;
-        Time.timeScale = 1;
+        SetCurrentScreen(null);
 
         // Pause Button
         Button pauseButton = GameObject.Find("Pause Button").GetComponent<Button>();
@@ -47,10 +46,10 @@ public class PopupScreen : MonoBehaviour
 
         manualHelpScreen = transform.GetChild(4).gameObject;
         manualHelpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Help);
-        
+
         towerHelpScreen = transform.GetChild(5).gameObject;
         towerHelpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Help);
-        
+
         enemyHelpScreen = transform.GetChild(6).gameObject;
         enemyHelpScreen.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(Help);
 
@@ -78,7 +77,7 @@ public class PopupScreen : MonoBehaviour
             {
                 Pause();
             }
-            else if(currentScreen == manualHelpScreen || currentScreen == towerHelpScreen || currentScreen == enemyHelpScreen)
+            else if (currentScreen == manualHelpScreen || currentScreen == towerHelpScreen || currentScreen == enemyHelpScreen)
             {
                 Help();
             }
