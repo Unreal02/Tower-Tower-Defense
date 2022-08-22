@@ -188,6 +188,7 @@ public class MouseCursor : MonoBehaviour
 
     public void OnClickCancelInstallButton()
     {
+        Destroy(selectedTower);
         SetCursorState(CursorState.idle);
     }
 
