@@ -28,11 +28,11 @@ public class SynergyStatus : MonoBehaviour
 
         if (bonus.radiusBonus != 0)
         {
-            text.text += string.Format("\n사정거리 +{0}%", bonus.radiusBonus);
+            text.text += string.Format("\n사거리 +{0}%", bonus.radiusBonus);
         }
         if (bonus.delayBonus != 0)
         {
-            text.text += string.Format("\n공격 시간 -{0}%", bonus.delayBonus);
+            text.text += string.Format("\n딜레이 -{0}%", bonus.delayBonus);
         }
         if (bonus.damageBonus != 0)
         {

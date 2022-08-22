@@ -62,10 +62,11 @@ public class TowerStatus : MonoBehaviour
     {
         towerRotateButton.SetActive(selectedTower.GetType() == typeof(TowerStraight));
         statusText.text = selectedTower.GetStatusText();
+        statusText.transform.GetChild(0).GetComponent<Text>().text = selectedTower.GetStatusPreviewText();
         int level = selectedTower.GetLevel();
         if (level < 4)
         {
-            upgradeText.text = string.Format("레벨 {0} -> {1}\n{2}", level + 1, level + 2, selectedTower.GetNextCost());
+            upgradeText.text = string.Format("레벨 {0} → {1}\n{2}", level + 1, level + 2, selectedTower.GetNextCost());
         }
         else
         {

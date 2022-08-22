@@ -253,17 +253,48 @@ public class Tower : MonoBehaviour
         UpdateRadiusSphere();
     }
 
-    public virtual string GetStatusText()
+    public string GetStatusText()
     {
         string s = string.Format("공격력 {0}", GetDamage());
         if (idx == 1 || idx == 2 || idx == 3)
         {
-            s += String.Format("\n사정거리 {0}", GetRadius());
+            s += String.Format("\n사거리 {0}", GetRadius());
         }
         if (idx != 6 && idx != 7)
         {
-            s += String.Format("\n공격 시간 {0}", GetDelay());
+            s += String.Format("\n딜레이 {0}", GetDelay());
         }
+        return s;
+    }
+
+    public string GetStatusPreviewText()
+    {
+        string s = "";
+        if (level == 4) return s;
+
+        if (data.damage[level] != data.damage[level + 1])
+        {
+            s += string.Format("→ {0}", data.damage[level + 1] + damageBonus);
+        }
+
+        if (idx == 1 || idx == 2 || idx == 3)
+        {
+            s += "\n";
+            if (data.radius[level] != data.radius[level + 1])
+            {
+                s += string.Format("→ {0}", data.radius[level + 1] * (1 + radiusBonus / 100f));
+            }
+        }
+
+        if (idx != 6 && idx != 7)
+        {
+            s += "\n";
+            if (data.delay[level] != data.delay[level + 1])
+            {
+                s += string.Format("→ {0}", data.delay[level + 1] * (1 + delayBonus / 100f));
+            }
+        }
+
         return s;
     }
 }
