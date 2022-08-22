@@ -50,7 +50,6 @@ public class TowerStatus : MonoBehaviour
         stackedSell.SetActive(false);
         if (b)
         {
-            towerRotateButton.SetActive(selectedTower.GetType() == typeof(TowerStraight));
             UpdateTowerStatus();
         }
         else
@@ -61,7 +60,8 @@ public class TowerStatus : MonoBehaviour
 
     public void UpdateTowerStatus()
     {
-        statusText.text = string.Format("공격력 {0}\n사정거리 {1}\n공격 시간 {2}", selectedTower.GetDamage(), selectedTower.GetRadius(), selectedTower.GetDelay());
+        towerRotateButton.SetActive(selectedTower.GetType() == typeof(TowerStraight));
+        statusText.text = selectedTower.GetStatusText();
         int level = selectedTower.GetLevel();
         if (level < 4)
         {

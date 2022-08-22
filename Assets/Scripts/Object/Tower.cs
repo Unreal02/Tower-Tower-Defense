@@ -252,4 +252,18 @@ public class Tower : MonoBehaviour
 
         UpdateRadiusSphere();
     }
+
+    public virtual string GetStatusText()
+    {
+        string s = string.Format("공격력 {0}", GetDamage());
+        if (idx == 1 || idx == 2 || idx == 3)
+        {
+            s += String.Format("\n사정거리 {0}", GetRadius());
+        }
+        if (idx != 6 && idx != 7)
+        {
+            s += String.Format("\n공격 시간 {0}", GetDelay());
+        }
+        return s;
+    }
 }
