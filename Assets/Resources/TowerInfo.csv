@@ -52,7 +52,7 @@ Power Per Cost,8.47,9.12,9.33,9.7,10
 Tower Idx,4,,,,
 Tower Name,Sniper Tower,,,,
 Radius Type,normal,,,,
-Cost,230,35,55,140,140
+Cost,150,30,30,90,100
 Radius,0,0,0,0,0
 Delay,3,2.5,2,2,2
 Bullet Idx,4,4,4,4,4
@@ -62,9 +62,9 @@ Targeting,1,1,1,1,1
 Life,10,10,10,10,10
 Bullet HP,1,1,1,1,1
 ,,,,,
-Cumulative Cost,230,265,320,460,600
-Power,20,24,30,45,60
-Power Per Cost,8.7,9.06,9.38,9.78,10
+Cumulative Cost,150,180,210,300,400
+Power,13.33,16,20,30,40
+Power Per Cost,8.89,8.89,9.52,10,10
 ,,,,,
 Tower Idx,5,,,,
 Tower Name,Laser Tower,,,,
