@@ -12,7 +12,6 @@ public class SpeedControlButton : MonoBehaviour
     void Start()
     {
         speed = 1;
-        GetComponent<Button>().onClick.AddListener(OnClickSpeedControlButton);
         text = GetComponentInChildren<Text>();
     }
 
@@ -22,7 +21,7 @@ public class SpeedControlButton : MonoBehaviour
 
     }
 
-    private void OnClickSpeedControlButton()
+    public void OnClickSpeedControlButton()
     {
         if (speed == 1) SetSpeed(2);
         else SetSpeed(1);
