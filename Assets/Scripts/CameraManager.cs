@@ -12,9 +12,12 @@ public class CameraManager : MonoBehaviour
     private Vector3 currMousePosition;
     private Camera myCamera;
 
+    private PopupScreen popupScreen;
+
     void Start()
     {
         myCamera = Camera.main;
+        popupScreen = FindObjectOfType<PopupScreen>();
     }
 
     void Update()
@@ -39,7 +42,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKey(KeyCode.V)) Rotate(-keyboardRotateSpeed * Time.deltaTime / Time.timeScale, 0);
 
         // 스크롤: 확대/축소
-        if (Input.mouseScrollDelta.y != 0)
+        if (Input.mouseScrollDelta.y != 0 && !popupScreen.IsPaused())
         {
             myCamera.orthographicSize = Mathf.Clamp(myCamera.orthographicSize - Input.mouseScrollDelta.y, 1, 20);
         }

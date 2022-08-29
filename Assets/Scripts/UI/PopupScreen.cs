@@ -152,4 +152,9 @@ public class PopupScreen : MonoBehaviour
             Time.timeScale = speedControlButton.GetSpeed();
         }
     }
+
+    public bool IsPaused()
+    {
+        return currentScreen != null;
+    }
 }
