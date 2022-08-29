@@ -256,6 +256,11 @@ public class Tower : MonoBehaviour
     public string GetStatusText()
     {
         string s = string.Format("공격력 {0}", GetDamage());
+        if (idx == 6)
+        {
+            s = string.Format("이동 속도 -{0}.{1}", GetDamage() / 10, GetDamage() % 10);
+        }
+
         if (idx == 1 || idx == 2 || idx == 3)
         {
             s += String.Format("\n사거리 {0}", GetRadius());
@@ -274,7 +279,14 @@ public class Tower : MonoBehaviour
 
         if (data.damage[level] != data.damage[level + 1])
         {
-            s += string.Format("→ {0}", data.damage[level + 1] + damageBonus);
+            if (idx != 6)
+            {
+                s += string.Format("→ {0}", data.damage[level + 1] + damageBonus);
+            }
+            else
+            {
+                s += string.Format("→ -{0}.{1}", (data.damage[level + 1] + damageBonus) / 10, (data.damage[level + 1] + damageBonus) % 10);
+            }
         }
 
         if (idx == 1 || idx == 2 || idx == 3)
