@@ -36,10 +36,13 @@ public class CameraManager : MonoBehaviour
         }
 
         // Q/E/C/V: 카메라 회전
-        if (Input.GetKey(KeyCode.Q)) Rotate(0, keyboardRotateSpeed * Time.deltaTime / Time.timeScale);
-        if (Input.GetKey(KeyCode.E)) Rotate(0, -keyboardRotateSpeed * Time.deltaTime / Time.timeScale);
-        if (Input.GetKey(KeyCode.C)) Rotate(keyboardRotateSpeed * Time.deltaTime / Time.timeScale, 0);
-        if (Input.GetKey(KeyCode.V)) Rotate(-keyboardRotateSpeed * Time.deltaTime / Time.timeScale, 0);
+        if (!popupScreen.IsPaused())
+        {
+            if (Input.GetKey(KeyCode.Q)) Rotate(0, keyboardRotateSpeed * Time.deltaTime / Time.timeScale);
+            if (Input.GetKey(KeyCode.E)) Rotate(0, -keyboardRotateSpeed * Time.deltaTime / Time.timeScale);
+            if (Input.GetKey(KeyCode.C)) Rotate(keyboardRotateSpeed * Time.deltaTime / Time.timeScale, 0);
+            if (Input.GetKey(KeyCode.V)) Rotate(-keyboardRotateSpeed * Time.deltaTime / Time.timeScale, 0);
+        }
 
         // 스크롤: 확대/축소
         if (Input.mouseScrollDelta.y != 0 && !popupScreen.IsPaused())
@@ -61,10 +64,13 @@ public class CameraManager : MonoBehaviour
         }
 
         // W/A/S/D: 카메라 이동
-        if (Input.GetKey(KeyCode.W)) Move(0, -keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale);
-        if (Input.GetKey(KeyCode.S)) Move(0, keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale);
-        if (Input.GetKey(KeyCode.A)) Move(keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale, 0);
-        if (Input.GetKey(KeyCode.D)) Move(-keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale, 0);
+        if (!popupScreen.IsPaused())
+        {
+            if (Input.GetKey(KeyCode.W)) Move(0, -keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale);
+            if (Input.GetKey(KeyCode.S)) Move(0, keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale);
+            if (Input.GetKey(KeyCode.A)) Move(keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale, 0);
+            if (Input.GetKey(KeyCode.D)) Move(-keyboardMoveSpeed * Screen.width * Time.deltaTime / Time.timeScale, 0);
+        }
     }
 
     // x, y: degree 단위
