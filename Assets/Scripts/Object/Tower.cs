@@ -258,7 +258,7 @@ public class Tower : MonoBehaviour
         string s = string.Format("공격력 {0}", GetDamage());
         if (idx == 6)
         {
-            s = string.Format("이동 속도 -{0}.{1}", GetDamage() / 10, GetDamage() % 10);
+            s = string.Format("적 속도 -{0}.{1}", GetDamage() / 10, GetDamage() % 10);
         }
 
         if (idx == 1 || idx == 2 || idx == 3)
