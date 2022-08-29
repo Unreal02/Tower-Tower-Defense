@@ -41,6 +41,10 @@ public class TowerHelpScreen : MonoBehaviour
                 damage.GetChild(lv).GetComponent<Text>().text = towerData.damage[lv].ToString();
                 radius.GetChild(lv).GetComponent<Text>().text = towerData.radius[lv].ToString();
                 delay.GetChild(lv).GetComponent<Text>().text = towerData.delay[lv].ToString();
+                if (idx == 6)
+                {
+                    damage.GetChild(lv).GetComponent<Text>().text = string.Format("-{0}.{1}", towerData.damage[lv] / 10, towerData.damage[lv] % 10);
+                }
             }
         }
 
