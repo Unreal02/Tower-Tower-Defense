@@ -24,8 +24,10 @@ public class TowerHelpScreen : MonoBehaviour
         towerDetailSet = transform.GetChild(3);
         towerDetail = new GameObject[towerManager.towerInfo.Count + 1];
         towerDetail[0] = towerDetailSet.GetChild(0).gameObject;
-        foreach (var idx in towerManager.towerInfo.Keys)
+        foreach (var pair in towerManager.towerInfo)
         {
+            int idx = pair.Key;
+            TowerManager.TowerData towerData = pair.Value;
             towerDetail[idx] = towerDetailSet.GetChild(idx).gameObject;
             Transform level = towerDetail[idx].transform.GetChild(3);
             Transform cost = towerDetail[idx].transform.GetChild(4);
@@ -35,10 +37,10 @@ public class TowerHelpScreen : MonoBehaviour
             for (int lv = 0; lv < 5; lv++)
             {
                 level.GetChild(lv).GetComponent<Text>().text = (lv + 1).ToString();
-                cost.GetChild(lv).GetComponent<Text>().text = towerManager.towerInfo[idx].cost[lv].ToString();
-                damage.GetChild(lv).GetComponent<Text>().text = towerManager.towerInfo[idx].damage[lv].ToString();
-                radius.GetChild(lv).GetComponent<Text>().text = towerManager.towerInfo[idx].radius[lv].ToString();
-                delay.GetChild(lv).GetComponent<Text>().text = towerManager.towerInfo[idx].delay[lv].ToString();
+                cost.GetChild(lv).GetComponent<Text>().text = towerData.cost[lv].ToString();
+                damage.GetChild(lv).GetComponent<Text>().text = towerData.damage[lv].ToString();
+                radius.GetChild(lv).GetComponent<Text>().text = towerData.radius[lv].ToString();
+                delay.GetChild(lv).GetComponent<Text>().text = towerData.delay[lv].ToString();
             }
         }
 

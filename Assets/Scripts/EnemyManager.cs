@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
         public int money; // 제거하면 주는 자금
     }
 
-    public Dictionary<int, EnemyData> enemyInfo;
+    public SortedDictionary<int, EnemyData> enemyInfo;
 
     private HashSet<Enemy> enemySet;
 
@@ -22,7 +22,7 @@ public class EnemyManager : MonoBehaviour
     {
         enemySet = new HashSet<Enemy>();
 
-        enemyInfo = new Dictionary<int, EnemyData>();
+        enemyInfo = new SortedDictionary<int, EnemyData>();
         List<List<string>> csv = CSVReader.Read("EnemyInfo");
         csv.RemoveAt(0);
         foreach (List<string> list in csv)
