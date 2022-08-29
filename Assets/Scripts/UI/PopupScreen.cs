@@ -125,6 +125,7 @@ public class PopupScreen : MonoBehaviour
     private void TowerHelp()
     {
         SetCurrentScreen(towerHelpScreen);
+        towerHelpScreen.GetComponent<TowerHelpScreen>().Init();
     }
 
     private void EnemyHelp()

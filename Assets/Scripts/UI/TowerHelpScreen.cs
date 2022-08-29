@@ -42,13 +42,21 @@ public class TowerHelpScreen : MonoBehaviour
             }
         }
 
-        OnClickTowerDetailButton(0);
+        Init();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void Init()
+    {
+        if (towerDetail != null)
+        {
+            OnClickTowerDetailButton(0);
+        }
     }
 
     private void OnClickTowerDetailButton(int idx)
