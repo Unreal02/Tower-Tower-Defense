@@ -15,11 +15,13 @@ public class PopupScreen : MonoBehaviour
     private GameObject towerHelpScreen;
     private GameObject enemyHelpScreen;
     private SpeedControlButton speedControlButton;
+    private Image backgroundImage;
 
     // Start is called before the first frame update
     void Start()
     {
         speedControlButton = FindObjectOfType<SpeedControlButton>();
+        backgroundImage = GetComponent<Image>();
 
         // Pause Button
         Button pauseButton = GameObject.Find("Pause Button").GetComponent<Button>();
@@ -146,10 +148,12 @@ public class PopupScreen : MonoBehaviour
         {
             currentScreen.SetActive(true);
             Time.timeScale = 0;
+            backgroundImage.enabled = true;
         }
         else
         {
             Time.timeScale = speedControlButton.GetSpeed();
+            backgroundImage.enabled = false;
         }
     }
 
