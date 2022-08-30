@@ -17,7 +17,7 @@ public class Tower : MonoBehaviour
 
     // 보너스 (중첩된 보너스는 합연산으로 적용)
     private int radiusBonus; // 퍼센트 증가량
-    private int delayBonus; // 퍼센트 증가량
+    private int delayBonus; // 퍼센트 감소량
     private int damageBonus; // 수치 증가량
     private int speedBonus; // 퍼센트 증가량
 
@@ -45,7 +45,7 @@ public class Tower : MonoBehaviour
     public int GetNextCost() { return data.cost[level + 1]; }
     public int GetSellCost() { return data.cost.GetRange(0, level + 1).Sum() * 4 / 5; }
     public float GetRadius() { return data.radius[level] * (1 + radiusBonus / 100f); }
-    public float GetDelay() { return data.delay[level] * (1 + delayBonus / 100f); }
+    public float GetDelay() { return data.delay[level] * (1 - delayBonus / 100f); }
     public GameObject GetBullet() { return data.bullet[level]; }
     public int GetDamage() { return data.damage[level] + damageBonus; }
     public float GetSpeed() { return data.speed[level] * (1 + speedBonus / 100f); }
@@ -303,7 +303,7 @@ public class Tower : MonoBehaviour
             s += "\n";
             if (data.delay[level] != data.delay[level + 1])
             {
-                s += string.Format("→ {0}", data.delay[level + 1] * (1 + delayBonus / 100f));
+                s += string.Format("→ {0}", data.delay[level + 1] * (1 - delayBonus / 100f));
             }
         }
 
